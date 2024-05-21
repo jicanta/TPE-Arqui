@@ -3,6 +3,8 @@
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
+// TODO: borrar
+#include <videoDriver.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -81,7 +83,8 @@ void * initializeKernelBinary()
 }
 
 int main()
-{	
+{
+	draw_string("BIENVENIDOS A DRACULAOS", 0xFF0000, 0, 0);	
 	ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");
