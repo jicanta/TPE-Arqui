@@ -82,8 +82,60 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
+char* itoa(int val, int base) {
+
+    if (val == 0) {
+	return "0\0";
+    }
+
+    static char buf[32] = {0};
+
+    int i = 30;
+
+    for(; val && i ; --i, val /= base)
+
+        buf[i] = "0123456789abcdef"[val % base];
+
+    return &buf[i+1];
+
+}
+
+uint32_t get_minutes();
+uint32_t get_seconds();
+uint32_t get_hours();
+
+void printMinutes(int x, int y) {
+	draw_string(itoa(get_minutes(), 10), 0xFF0000, x, y);
+}
+
+void printHours(int x, int y) {
+        draw_string(itoa(get_hours() - 0x3, 10), 0xFF0000, x, y);
+}
+
+void printSeconds(int x, int y) {
+        draw_string(itoa(get_seconds(), 10), 0xFF0000, x, y);
+}
+
+void printCurTime(int x, int y) {
+	printHours(x, y);
+	draw_string(":", 0xFF0000, x + 8 * 2, y);
+	x += 8 * 3 + 2;
+	printMinutes(x, y);
+	draw_string(":", 0xFF0000, x + 8 * 2, y);
+	x += 8 * 3 + 2;
+	printSeconds(x, y);
+}
+
+
 int main()
-{
+{      
+ //       ncPrint("HOla");
+//	printHours();	
+//        printMinutes();
+//	printSeconds();
+//
+//
+	printCurTime(120, 120);
 	draw_string("BIENVENIDOS A DRACULAOS", 0xFF0000, 0, 0);	
 	ncPrint("[Kernel Main]");
 	ncNewline();
@@ -105,3 +157,4 @@ int main()
 	ncPrint("[Finished]");
 	return 0;
 }
+
