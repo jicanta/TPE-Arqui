@@ -84,8 +84,12 @@ void * initializeKernelBinary()
 
 char* itoa(int val, int base) {
 
-    if (val == 0) {
-	return "0\0";
+    if (val < 10) {
+	static char s[3];
+	s[0] = '0';
+	s[1] = val + '0';
+	s[2] = '\0';
+	return s;
     }
 
     static char buf[32] = {0};
@@ -119,10 +123,10 @@ void printSeconds(int x, int y) {
 void printCurTime(int x, int y) {
 	printHours(x, y);
 	draw_string(":", 0xFF0000, x + 8 * 2, y);
-	x += 8 * 3 + 2;
+	x += 8 * 3 + 1;
 	printMinutes(x, y);
 	draw_string(":", 0xFF0000, x + 8 * 2, y);
-	x += 8 * 3 + 2;
+	x += 8 * 3;
 	printSeconds(x, y);
 }
 
@@ -136,7 +140,8 @@ int main()
 //
 //
 	printCurTime(120, 120);
-	draw_string("BIENVENIDOS A DRACULAOS", 0xFF0000, 0, 0);	
+	draw_string("Bienvenidos a DRACULAOS. Escribir \"help\" para ver mas comandos.", 0xFF0000, 0, 0);
+		draw_string("$", 0xFF0000, 0, 0 + 16);	
 	ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");
