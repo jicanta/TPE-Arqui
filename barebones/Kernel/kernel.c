@@ -5,6 +5,7 @@
 #include <naiveConsole.h>
 // TODO: borrar
 #include <videoDriver.h>
+#include <interrupts.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -133,8 +134,7 @@ void printCurTime(int x, int y) {
 
 int main() {
 	//putString("hola mundo");
-	putChar('a');
-	putChar('c');
+	load_idt();
 	//printCurTime(120, 120);
 	//putString("Bienvenidos a DRACULAOS. Escribir \"help\" para ver mas comandos. asakjnaksjdksajdnksajdnksajdnksjandkjasndkjasndkjasndkjasndkjsandkjsadkjsandkjsandkjasndkjansdkjnasdkjnsakdjnakjdakjsdkajsndkjasnd");
 	//	draw_string("$", 0xFF0000, 0, 0 + 16);	
@@ -157,8 +157,9 @@ int main() {
 	ncPrint("  Sample data module contents: ");
 	ncPrint((char*)sampleDataModuleAddress);
 	ncNewline();
-
+	
 	ncPrint("[Finished]");
+	while(1) _hlt();
 	return 0;
 }
 

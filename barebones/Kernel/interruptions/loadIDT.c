@@ -41,7 +41,6 @@ void load_idt() {
   setup_IDT_entry (0x21, (uint64_t)&irq01);
   setup_IDT_entry (0x80, (uint64_t)&sys_call);
 
-
 	// timer tick & keyboard only
 	picMasterMask(0xFC); 
 	picSlaveMask(0xFF);
