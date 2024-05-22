@@ -1,4 +1,5 @@
-#include <keyboardDriver.c>
+#include <keyboardDriver.h>
+#include <videoDriver.h>    // TODO: BORRAR
 
 // defining a new data type: pointer to a interruption function that returns void
 typedef void (*ints)();
@@ -18,8 +19,14 @@ ints interruptions[] = {int_20, int_21}; // in interruptions[0] timer tick, in i
 int interruptionsDim = sizeof(interruptions) / sizeof(interruptions[0]);
 
 void irqHandler(uint64_t irq){
+    putChar('a');
     if (irq < 0 || irq > interruptionsDim){
         return ;                      // interruption does not exist
     }
-    return interruptions[irq]();      // requested interruption is called
+    
+    interruptions[irq]();      // requested interruption is called
+}
+
+void hola(ints f){
+    f();
 }

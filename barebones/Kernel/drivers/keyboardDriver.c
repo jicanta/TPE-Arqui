@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <keyboardDriver.h>
+#include <videoDriver.h>
 
 #define BLOCKMAYUSC     0x3A
 #define LEFTSHIFT       0x2A
 #define RIGHTSHIFT      0x36
 #define LEFTCTRL        0x1D
 #define RIGHTCTRL       0xE01D
+#define ENTER           0x1C
+#define BACKSPACE       0x53
 
 #define BUFFER_MAX_SIZE 6000     // can write up to 6000 chars which takes up almpst the entire screen
 #define MASK            0x7F
@@ -17,10 +20,10 @@
 #define ISPRESSED(key)      (((key) & UNPRESSEDCODE) == 0)
 #define KEY_ASCII(scanCode) ((scanCode) & MASK)    
 
-char totalBuffer[6000] = {};
-int bufferSize = 0;
+char * totalBuffer;
+int bufferSize = 0;     // TODO: ver si sirve de algo buffer size o no
 int mayuscOn = 0;       // turned on if block mayusc is on
-int currentMap = 0;     // setting lower case map to starting map just because 
+int ctrlPressed = 0;    // "boolean" to know if ctrl is pressed or not
 
 uint8_t lowerCaseMap[] = {
     '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '\b',
@@ -40,31 +43,32 @@ uint8_t upperCaseMap[] = {
 
 uint8_t * keysMap[] = {lowerCaseMap, upperCaseMap};
 
+void saveBuffer(){
+    // interpretCommand(totalBuffer);      // TODO: write command interpreter to receive string
+    bufferSize = 0;
+}
+
 char processKey(uint32_t scanCode){
-    if (scanCode == BLOCKMAYUSC){
-        mayuscOn = !mayuscOn;
+    if (scanCode == ENTER){
+        // saveBuffer();           // typing is donde for now
         return 0;
     }
-    if (scanCode == LEFTSHIFT || scanCode == RIGHTSHIFT){
-        currentMap = ISPRESSED(scanCode);
-        return 0;
-    }
-    if (scanCode == LEFTCTRL || scanCode == RIGHTCTRL){
-        // add ctrl modifications
+    if (scanCode == BACKSPACE){
+        backSpace();
     }
     if (!ISPRESSED(scanCode) || keysMap[LOWERCASE][KEY_ASCII(scanCode)] == 0){
         return 0;
     }
+    if ((scanCode == BLOCKMAYUSC) && ISPRESSED(scanCode)){
+        mayuscOn = !mayuscOn;
+        return 0;
+    }
+    if (scanCode == LEFTCTRL || scanCode == RIGHTCTRL){
+        ctrlPressed = (ISPRESSED(scanCode));
+        return 0;
+    }
     char out = keysMap[ISUPPERCASE()? UPPERCASE:LOWERCASE][KEY_ASCII(scanCode)];
     return out;
-}
-
-int emptyBuffer(){
-    return bufferSize == 0;
-}
-
-int fullBuffer(){
-    return bufferSize == BUFFER_MAX_SIZE;
 }
 
 int isPrintable(char out){
@@ -72,7 +76,8 @@ int isPrintable(char out){
 }
 
 void addKeyToBuffer(char out){
-    totalBuffer[bufferSize - 1] = out;
+    totalBuffer[bufferSize] = out;
+    bufferSize++;
 }
 
 extern uint32_t inb0x60();
@@ -80,18 +85,16 @@ extern uint32_t inb0x60();
 void readBufferChar(){
     uint32_t scanCode = inb0x60();       // get scan code of key from asm function
     char out = processKey(scanCode);
+    putChar('a');
     if (isPrintable(out)){
         addKeyToBuffer(out);
+        putChar(out);    // TODO: ver si funca putChar
     }
-    draw_string(out, 0xFF0000, 8 * bufferSize, 16 * bufferSize%128);    // TODO: VER SI ESTAN BIEN ESTAS POSICIONES LAS PUSE MEDIO QUE CON LOS OJOS CERRADOS
-    return;
 }
 
 
 void processBuffer(){
-    if (emptyBuffer()){         // there is nothing to read
-        return ;
-    }
+    putChar('a');
     readBufferChar();       // start reading
     bufferSize++;           // so as not to write more then buffer max size
     return ;

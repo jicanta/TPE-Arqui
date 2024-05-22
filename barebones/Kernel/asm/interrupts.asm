@@ -15,8 +15,11 @@ GLOBAL irq01                ; keyboard interruptionn
 GLOBAL exception00          ; exception 00 (division by zero)
 GLOBAL exception06          ; exception 06 (invalid op code)
 
+GLOBAL sys_call
+
 EXTERN irqHandler           ; function in IRQs.c which handles interruption
 EXTERN exceptionHandler     ; function in exceptions.c which handles exceptions
+EXTERN syscallHandler		; function is syscalls.c which handles syscalls
 
 section .text
 
@@ -70,11 +73,21 @@ section .text
 	iretq
 %endmacro
 
-%macro exceptionHandler 1
+%macro exceptionHandlerMaster 1
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
 	call exceptionHandler             ; calling exceptionHandler to process interruption
+
+	popState
+	iretq
+%endmacro
+
+%macro syscallHandlerMaster 1
+	pushState
+	
+	mov rdi, %1			; passing argument
+	call syscallHandler 
 
 	popState
 	iretq
@@ -135,11 +148,14 @@ _irq05Handler:
 
 ; division by zero exception
 exception00:
-	exceptionHandler 0
+	exceptionHandlerMaster 0
 
 ; invalid op code exception
 exception06:
-    exceptionHandler 1
+    exceptionHandlerMaster 1
+
+sys_call:
+	syscallHandlerMaster [ebp+4]
 
 haltcpu:
 	cli

@@ -131,17 +131,13 @@ void printCurTime(int x, int y) {
 }
 
 
-int main()
-{      
- //       ncPrint("HOla");
-//	printHours();	
-//        printMinutes();
-//	printSeconds();
-//
-//
-	printCurTime(120, 120);
-	draw_string("Bienvenidos a DRACULAOS. Escribir \"help\" para ver mas comandos.", 0xFF0000, 0, 0);
-		draw_string("$", 0xFF0000, 0, 0 + 16);	
+int main() {
+	//putString("hola mundo");
+	putChar('a');
+	putChar('c');
+	//printCurTime(120, 120);
+	//putString("Bienvenidos a DRACULAOS. Escribir \"help\" para ver mas comandos. asakjnaksjdksajdnksajdnksajdnksjandkjasndkjasndkjasndkjasndkjsandkjsadkjsandkjsandkjasndkjansdkjnasdkjnsakdjnakjdakjsdkajsndkjasnd");
+	//	draw_string("$", 0xFF0000, 0, 0 + 16);	
 	ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");
@@ -151,6 +147,9 @@ int main()
 	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
 	ncNewline();
 	ncNewline();
+
+	// [....]
+	// [....]
 
 	ncPrint("  Sample data module at 0x");
 	ncPrintHex((uint64_t)sampleDataModuleAddress);
