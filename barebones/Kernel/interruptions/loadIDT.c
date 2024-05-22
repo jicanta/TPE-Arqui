@@ -1,5 +1,6 @@
- #include <stdio.h>
+#include <stdint.h>
 #include <interrupts.h>
+#include <defs.h>
 
 #pragma pack(push)		                // push of current alignment
 #pragma pack (1) 		                // alignment of structures to 1 byte
@@ -26,5 +27,3 @@ static void setup_IDT_entry (int index, uint64_t offset) {
   idt[index].cero = 0;
   idt[index].other_cero = (uint64_t) 0;
 }
-
-void loadIDT() {

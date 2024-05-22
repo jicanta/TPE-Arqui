@@ -5,7 +5,7 @@
 
 char processKey(uint32_t key);
 
-void processBuffer(char buffer);
+void processBuffer();
 
 int fullBuffer();
 

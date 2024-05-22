@@ -18,7 +18,7 @@ GLOBAL exception06          ; exception 06 (invalid op code)
 EXTERN irqHandler           ; function in IRQs.c which handles interruption
 EXTERN exceptionHandler     ; function in exceptions.c which handles exceptions
 
-SECTION .text
+section .text
 
 %macro pushState 0
 	push rax
