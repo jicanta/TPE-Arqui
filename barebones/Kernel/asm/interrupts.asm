@@ -17,6 +17,8 @@ GLOBAL exception06          ; exception 06 (invalid op code)
 
 GLOBAL sys_call
 
+GLOBAL registerSnapshot
+
 EXTERN irqHandler           ; function in IRQs.c which handles interruption
 EXTERN exceptionHandler     ; function in exceptions.c which handles exceptions
 EXTERN syscallHandler		; function is syscalls.c which handles syscalls
@@ -162,6 +164,32 @@ haltcpu:
 	hlt
 	ret
 
+registerSnapshot:
+		pushState
+		mov [registers], rax
+		mov [registers + 8 * 1], rbx
+		mov [registers + 8 * 2], rcx
+		mov [registers + 8 * 3], rdx
+		mov [registers + 8 * 4], rbp
+		mov [registers + 8 * 5], rdi
+		mov [registers + 8 * 6], rsi   
+		mov rax, [rsp+18*8]
+		mov [registers + 8 * 7], rax       ;inserto rsp
+		mov rax, [rsp+15*8] 
+		mov [registers + 8 * 8], rax      ;inserto rip
+		mov [registers + 8 * 9], r8
+		mov [registers + 8 * 10], r9
+		mov [registers + 8 * 11], r10
+		mov [registers + 8 * 12], r11
+		mov [registers + 8 * 13], r12
+		mov [registers + 8 * 14], r13
+		mov [registers + 8 * 15], r14
+		mov [registers + 8 * 16], r15
+
+		mov rdi, registers    ;TODO: no estoy seguro de que este pasando bien los parametros
+		call getRegisters
+
 SECTION .bss
 	aux resq 1
+	registers resq 17
  
