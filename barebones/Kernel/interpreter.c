@@ -38,46 +38,58 @@ void help(){        // TODO: ver si la cambiamos o dejamos esto
     newLine();
     tabBar();
     putString("    zoom out        -- diminishes letter size. WARNING: this command clears the whole screen");
-    newLineC();
 }
 
 void divzero() {
-    exception00();
+    newLine();
+    // putString("Dividiste por cero bu");
+    // exception00();
 }
 
 void invopcode() {
-    exception06();
+    newLine();
+    // putString("invalid op code lololol");
+    // exception06();
 }
 
 void time() {
-    sys_call(3);
+    newLine();
+    // putString("tiempoooooo");
+    // sys_call(3);
 }
 
 void getregisters() {
-    for (int i = 0; i < REGS ; i++){
+    newLine();
+    // putString("holi holi");
+    /* for (int i = 0; i < REGS ; i++){
         putString("hola");
         newLine();
-    }
+    } */
 }
 
 void zoomin() {
+    // putString("zoom");
     return ;
 }
 
 void zoomout() {
+    // putString("chau zoom");
     return ;
 }
 
-comms commands[] = {{help, "help"}, {divzero, "div zero"}, {invopcode, "inv opcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoom in"}, {zoomout, "zoom out"}};
+comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoomin"}, {zoomout, "zoomout"}};
 
 void interpretCommand(char * buffer){
     int i = 0;
     while (i < COMMDIM){
         if (strcmp(buffer, commands[i].name) == 0){
             commands[i].fn();
+            newLineC();
+            return;
         }
         i++;
     }
     newLine();
     putString("buffer : command not found");
+    newLineC();
 }

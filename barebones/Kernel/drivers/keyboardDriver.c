@@ -15,7 +15,7 @@
 #define SPACEBAR        0x39
 #define TABBAR          0x0F
 
-#define FIRSTLINE       0x0D
+#define FIRSTLINE       0x0D     // last scanCode from first line so as not to type special chars instead of numbers with blockMayusc
 
 #define BUFFER_MAX_SIZE 6000     // can write up to 6000 chars which takes up almpst the entire screen
 #define MASK            0x7F
@@ -23,7 +23,7 @@
 #define LOWERCASE       0
 #define UPPERCASE       1
 
-#define ISUPPERCASE()       (mayuscOn /*|| ISPRESSED(LEFTSHIFT) || ISPRESSED(RIGHTSHIFT)*/)
+#define ISUPPERCASE(scanCode)       ((scanCode > FIRSTLINE && (mayuscOn || shftPressed)) || shftPressed)
 #define ISPRESSED(key)      (((key) & UNPRESSEDCODE) == 0)
 #define KEY_ASCII(scanCode) ((scanCode) & MASK)    
 
@@ -31,12 +31,12 @@ char totalBuffer[250];
 int bufferSize = 0;         // TODO: ver si sirve de algo buffer size o no
 int mayuscOn = 0;           // turned on if block mayusc is on
 int ctrlPressed = 0;        // "boolean" to know if ctrl is pressed or not
-int currMap = LOWERCASE;    // starting with lowercase map just because
+int shftPressed = 0;        // "boolean" to know if ctrl is pressed or not
 
 uint8_t lowerCaseMap[] = {
       '`', 0, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 0, 
       0, 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\',
-      0, 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';','\'', 0,
+      0, 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';','\'', 0, 0,
       0, 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 0,
       0,  0,   0,   0,   0,   0,   0,   0,   0,   0,   0
 };
@@ -63,44 +63,40 @@ char processKey(uint32_t scanCode){
         saveBuffer();
         return 0;
     }
-    if ((scanCode == BACKSPACE)  && ISPRESSED(scanCode)){
+    if ((scanCode == BACKSPACE)  && ISPRESSED(scanCode)){   // we do not want it to act when released
+        bufferSize--;
         backSpace();
         return 0;
     }
-    if ((scanCode == SPACEBAR) && ISPRESSED(scanCode)){
+    if ((scanCode == SPACEBAR) && ISPRESSED(scanCode)){     // we do not want it to act when released
         spaceBar();
         return 0;
     }
-    if ((scanCode == TABBAR) && ISPRESSED(scanCode)) {
+    if ((scanCode == TABBAR) && ISPRESSED(scanCode)) {      // we do not want it to act when released
         tabBar();
         return 0;
     }
-    if ((scanCode == BLOCKMAYUSC) && ISPRESSED(scanCode)){
+    if ((scanCode == BLOCKMAYUSC) && ISPRESSED(scanCode)){  // we do not want it to act when released
         mayuscOn = !mayuscOn;
-        if (mayuscOn == 1){
-            currMap = UPPERCASE;
-        }
-        else {
-            currMap = LOWERCASE;
-        }
         return 0;
     }
-    if ((scanCode == LEFTSHIFT) || (scanCode == RIGHTSHIFT)){   // TODO: agregar el tema de la mayusc con el shift
-        currMap = (ISPRESSED(scanCode));
+    // TODO: arreglar tema de que el shift queda prendido forever y no vuelve a minuscula, no veo porque estaria mal
+    if (scanCode == (LEFTSHIFT || RIGHTSHIFT)){   // in this case, we do want to change shftPressed status when released
+        shftPressed = !shftPressed;
         return 0;
     }
-    if ((scanCode == LEFTCTRL) || (scanCode == RIGHTCTRL)){
-        ctrlPressed = (ISPRESSED(scanCode));
+    if ((scanCode == LEFTCTRL) || (scanCode == RIGHTCTRL)){     // same as last shft
+        ctrlPressed = !ctrlPressed;
         return 0;
     }
-    if ((ctrlPressed && ISPRESSED(scanCode)) && (scanCode == R)){
+    if (ctrlPressed && (scanCode == R)){                       // CTRL + R saves registers at any given moment
         sys_peekRegisters(getLastSavedRegisters());       // save current register status
         return 0;
     }
-    if (!ISPRESSED(scanCode) || keysMap[currMap][KEY_ASCII(scanCode)] == 0){     // we should ignore scanCodes received from released key
+    if (!ISPRESSED(scanCode) || keysMap[ISUPPERCASE(scanCode) ? UPPERCASE:LOWERCASE][KEY_ASCII(scanCode)] == 0){     // we should ignore scanCodes received from released key
         return 0;
     }
-    char out = keysMap[currMap][KEY_ASCII(scanCode)];
+    char out = keysMap[ISUPPERCASE(scanCode) ? UPPERCASE:LOWERCASE][KEY_ASCII(scanCode)];
     return out;
 }
 

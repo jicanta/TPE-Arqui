@@ -229,17 +229,19 @@ void draw_string(char * s, uint32_t color, uint64_t x, uint64_t y) {
 }
 
 void backSpace(){
-    if (currentPosX > 0){
+    /* if (currentPosX - getWidth() <= 0){         // TODO: no creo que funcione bien el tema de que al borrar el primer caracter salte a la linea anterior, chequear
+        incCurrentPosX(-getWidth());
+        spaceBar();
         resetCurrentPosX(VBE_mode_info->width);
         incCurrentPosY(-getHeight());
-    }
-    incCurrentPosX(-getWidth());
-    putChar(' ');
-    incCurrentPosX(-getWidth());
+    } */
+    currentPosX -= getWidth();
+    spaceBar();
+    currentPosX -= getWidth();
 }
 
-void spaceBar(){
-    incCurrentPosX(getWidth());
+void spaceBar(){    // TODO: antes habia hecho que el space bar moviera para le derecha el currentPosX pero yo quiero un ascii del espacio para poder hacer strcmp, no funca esto nose pq ver si lo pueden arreglar
+    putChar(' ');   // TODO: falta encargarse del tema de hacer espacio y tener q pasar a la siguiente fila
 }
 
 void tabBar(){

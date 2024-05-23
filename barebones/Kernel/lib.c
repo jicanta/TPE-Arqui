@@ -58,17 +58,16 @@ char toLower(char c) {
     return c;
 }
 
-int strcmp(const char * str1, const char * str2){
+int strcmp(const char * str1, const char * str2){		// 0 if strings are equal, 1 if not
 	while (*str1 && *str2) {
-        char c1 = toLower((unsigned char) * str1);
-        char c2 = toLower((unsigned char) * str2);
-        if (c1 != c2) {
-            return c1 - c2;
+        if (toLower((unsigned char)*str1) != toLower((unsigned char)*str2)) {
+            return 1;  // strings are not equal
         }
         str1++;
         str2++;
     }
-    return toLower((unsigned char) * str1) - toLower((unsigned char) * str2);
+    // if both strings end simultaneously, they are equal
+    return (*str1 == '\0' && *str2 == '\0') ? 0 : 1;
 }
 
 char* itoa(int val, int base) {

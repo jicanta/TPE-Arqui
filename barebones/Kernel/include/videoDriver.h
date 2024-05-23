@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #define DEFAULT_WIDTH   10
-#define DEFAULT_HEIGHT  32
+#define DEFAULT_HEIGHT  36
 
 uint8_t * getFramebuffer();
 int getWidth();
