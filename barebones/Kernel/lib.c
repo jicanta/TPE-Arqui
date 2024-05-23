@@ -1,4 +1,6 @@
 #include <stdint.h>
+#include <lib.h>
+#include <videoDriver.h>
 
 void * memset(void * destination, int32_t c, uint64_t length)
 {
@@ -47,4 +49,73 @@ void * memcpy(void * destination, const void * source, uint64_t length)
 	}
 
 	return destination;
+}
+
+char toLower(char c) {
+    if (c >= 'A' && c <= 'Z') {
+        return c + ('a' - 'A');
+    }
+    return c;
+}
+
+int strcmp(const char * str1, const char * str2){
+	while (*str1 && *str2) {
+        char c1 = toLower((unsigned char) * str1);
+        char c2 = toLower((unsigned char) * str2);
+        if (c1 != c2) {
+            return c1 - c2;
+        }
+        str1++;
+        str2++;
+    }
+    return toLower((unsigned char) * str1) - toLower((unsigned char) * str2);
+}
+
+char* itoa(int val, int base) {
+    if (val < 10) {
+	static char s[3];
+	s[0] = '0';
+	s[1] = val + '0';
+	s[2] = '\0';
+	return s;
+    }
+
+    static char buf[32] = {0};
+
+    int i = 30;
+
+    for(; val && i ; --i, val /= base)
+
+        buf[i] = "0123456789abcdef"[val % base];
+
+    return &buf[i+1];
+
+}
+
+extern uint32_t get_minutes();
+extern uint32_t get_seconds();
+extern uint32_t get_hours();
+
+void printMinutes() {
+	putString(itoa(get_minutes(), 10)); putChar('m');
+}
+
+void printHours() {
+	putString(itoa(get_hours() - 0x3, 10)); putChar('h');
+}
+
+void printSeconds() {
+    putString(itoa(get_seconds(), 10)); putChar('s');
+}
+
+void printCurTime() {
+	newLine();
+	putString("Time:");
+	putChar('\t');
+	printHours();
+	putChar(': ');
+	printMinutes();
+	putChar(": ");
+	printSeconds();
+	newLineC();
 }

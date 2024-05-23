@@ -14,14 +14,14 @@ GLOBAL irq00                ; timer tick interruption
 GLOBAL irq01                ; keyboard interruptionn
 GLOBAL exception00          ; exception 00 (division by zero)
 GLOBAL exception06          ; exception 06 (invalid op code)
-
 GLOBAL sys_call
-
 GLOBAL registerSnapshot
 
 EXTERN irqHandler           ; function in IRQs.c which handles interruption
 EXTERN exceptionHandler     ; function in exceptions.c which handles exceptions
 EXTERN syscallHandler		; function is syscalls.c which handles syscalls
+
+EXTERN getRegisters
 
 section .text
 
@@ -186,7 +186,7 @@ registerSnapshot:
 		mov [registers + 8 * 15], r14
 		mov [registers + 8 * 16], r15
 
-		mov rdi, registers    ;TODO: no estoy seguro de que este pasando bien los parametros
+		mov rdi, registers    ; TODO: no estoy seguro de que este pasando bien los parametros
 		call getRegisters
 
 SECTION .bss

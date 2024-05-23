@@ -1,5 +1,8 @@
 #include <videoDriver.h>
 
+int currentPosX = 0;
+int currentPosY = 0;
+
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
 	uint8_t window_a;			// deprecated
@@ -169,24 +172,31 @@ unsigned char font_data[][16] = {
         { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  },       //0x7F, delete
     };
 
-#define DEFAULT_WIDTH   8
-#define DEFAULT_HEIGHT  16
-
 typedef struct vbe_mode_info_structure * VBEInfoPtr;
 
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
-static int currentPosX = 0;
-static int currentPosY = 0;
+uint8_t * getFramebuffer(){
+    return (uint8_t * ) VBE_mode_info->framebuffer;
+}
+
+int getWidth(){     // TODO: modify for zoom and outzoon
+    return DEFAULT_WIDTH;
+}
+
+int getHeight(){
+    return DEFAULT_HEIGHT;
+}
 
 void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
-    uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
+    uint8_t * framebuffer = getFramebuffer();
     uint64_t offset = (x * ((VBE_mode_info->bpp)/8)) + (y * VBE_mode_info->pitch);
     framebuffer[offset]     =  (hexColor) & 0xFF;
     framebuffer[offset+1]   =  (hexColor >> 8) & 0xFF; 
     framebuffer[offset+2]   =  (hexColor >> 16) & 0xFF;
     currentPosX = ++x;
-
+    currentPosX++;
+    currentPosX++;
 }
 
 void draw_char(char c, uint32_t color, uint64_t x, uint64_t y) {
@@ -198,14 +208,6 @@ void draw_char(char c, uint32_t color, uint64_t x, uint64_t y) {
             }
         }
     }
-    // TODO: hacer que putPixel haga esta logica
-    if (currentPosX == VBE_mode_info->width){
-            if (y == VBE_mode_info->height){
-                return ;
-            }
-            currentPosX = 0;
-            currentPosY += DEFAULT_HEIGHT;          // new line bc max screen width reached
-        }
 }
 
 void draw_string(char * s, uint32_t color, uint64_t x, uint64_t y) {
@@ -214,28 +216,34 @@ void draw_string(char * s, uint32_t color, uint64_t x, uint64_t y) {
         i++;
     }
     for (int j = 0; j < i; j++) {
-        if (x == VBE_mode_info->width){
-            if (y == VBE_mode_info->height){
-                return ;
-            }
-            x = 0;
-            y = currentPosY + DEFAULT_HEIGHT;          // new line bc max screen width reached
-        }
         draw_char(*s, color, x, y);
         s++;
-        x += DEFAULT_WIDTH;
+        if (x + getWidth() > VBE_mode_info->width){
+            newLine();
+        }
+        else {
+          x += getWidth();  
+        }
     }
-    currentPosX += i * DEFAULT_WIDTH;
+    incCurrentPosX(i * getWidth());
 }
 
 void backSpace(){
-    if (currentPosX - DEFAULT_WIDTH < 0){
-        currentPosX = VBE_mode_info->width;
-        currentPosY -= DEFAULT_HEIGHT;
+    if (currentPosX > 0){
+        resetCurrentPosX(VBE_mode_info->width);
+        incCurrentPosY(-getHeight());
     }
-    currentPosX -= DEFAULT_WIDTH;
-    draw_char("", 0x000000, currentPosX, currentPosY);
-    currentPosX -= DEFAULT_WIDTH;
+    incCurrentPosX(-getWidth());
+    putChar(' ');
+    incCurrentPosX(-getWidth());
+}
+
+void spaceBar(){
+    incCurrentPosX(getWidth());
+}
+
+void tabBar(){
+    incCurrentPosX(getWidth() * 4);
 }
 
 void putChar(char c){
@@ -244,4 +252,29 @@ void putChar(char c){
 
 void putString(char * str){
     draw_string(str, 0xFFFFFF, currentPosX, currentPosY);
+}
+
+void newLine(){
+    resetCurrentPosX(0);
+    incCurrentPosY(getHeight()/2);
+}
+
+void newLineC(){
+    resetCurrentPosX(0);
+    incCurrentPosY(getHeight()/2);
+    putChar('$');
+    spaceBar();
+}
+
+void incCurrentPosX(int increase){
+    currentPosX += increase;
+}
+void resetCurrentPosX(int newPosX){
+    currentPosX = newPosX;
+}
+void incCurrentPosY(int decrease){
+    currentPosY += decrease;
+}
+void resetCurrentPosY(int newPosY){
+    currentPosY = newPosY;
 }

@@ -7,6 +7,9 @@
 #include <videoDriver.h>
 #include <interrupts.h>
 
+extern void _hlt();
+extern void load_idt();
+
 extern uint8_t text;
 extern uint8_t rodata;
 extern uint8_t data;
@@ -83,61 +86,9 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
-char* itoa(int val, int base) {
-
-    if (val < 10) {
-	static char s[3];
-	s[0] = '0';
-	s[1] = val + '0';
-	s[2] = '\0';
-	return s;
-    }
-
-    static char buf[32] = {0};
-
-    int i = 30;
-
-    for(; val && i ; --i, val /= base)
-
-        buf[i] = "0123456789abcdef"[val % base];
-
-    return &buf[i+1];
-
-}
-
-uint32_t get_minutes();
-uint32_t get_seconds();
-uint32_t get_hours();
-
-void printMinutes(int x, int y) {
-	draw_string(itoa(get_minutes(), 10), 0xFF0000, x, y);
-}
-
-void printHours(int x, int y) {
-        draw_string(itoa(get_hours() - 0x3, 10), 0xFF0000, x, y);
-}
-
-void printSeconds(int x, int y) {
-        draw_string(itoa(get_seconds(), 10), 0xFF0000, x, y);
-}
-
-void printCurTime(int x, int y) {
-	printHours(x, y);
-	draw_string(":", 0xFF0000, x + 8 * 2, y);
-	x += 8 * 3 + 1;
-	printMinutes(x, y);
-	draw_string(":", 0xFF0000, x + 8 * 2, y);
-	x += 8 * 3;
-	printSeconds(x, y);
-}
-
-
 int main() {
-	//putString("hola mundo");
 	load_idt();
-	//printCurTime(120, 120);
-	//putString("Bienvenidos a DRACULAOS. Escribir \"help\" para ver mas comandos. asakjnaksjdksajdnksajdnksajdnksjandkjasndkjasndkjasndkjasndkjsandkjsadkjsandkjsandkjasndkjansdkjnasdkjnsakdjnakjdakjsdkajsndkjasnd");
-	//	draw_string("$", 0xFF0000, 0, 0 + 16);	
+	newLineC();
 	ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");

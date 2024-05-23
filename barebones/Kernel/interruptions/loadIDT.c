@@ -4,8 +4,8 @@
 #include <interrupts.h>
 #include <defs.h>
 
-extern void picMasterMask();
-extern void picMasterSlave();
+extern void picMasterMask(uint64_t lim);
+extern void picMasterSlave(uint64_t lim);
 extern void _sti();
 
 #pragma pack(push)		                // push of current alignment

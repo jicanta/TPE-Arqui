@@ -27,14 +27,14 @@ void reserved(){
 
 excep exceptions[] = {zero_division, reserved, reserved, reserved, reserved, reserved, invalid_op_code};
 
+void handler(excep e){
+	e();
+}
+
 void exceptionHandler(int excepNum) {		// TODO: esta mal
 	if (excepNum != ZERODIVISION || excepNum != INVALIDOPCODE){
 		return ;		// exception does not exist
 	}
 	handler(exceptions[excepNum]);
 	return ;
-}
-
-void handler(excep e){
-	e();
 }

@@ -1,4 +1,19 @@
 #include <syscalls.h>
+#include <videoDriver.h>
+
+#define STDIN       0
+#define STDOUT      1
+#define STDERROR    2
+
+static uint64_t registers[17];
+
+extern uint32_t inb0x60();
+extern uint32_t get_year();
+extern uint32_t get_month();
+extern uint32_t get_day();
+extern uint32_t get_hours();
+extern uint32_t get_minutes();
+extern uint32_t get_seconds();
 
 // TODO: check if any other syscalls must be created
 
@@ -10,44 +25,10 @@ int64_t sys_write(uint64_t fileDescriptor, const char * string, uint64_t length)
 void sys_time(); // TODO: podemos hacer que la imprima o que reciba como parametro una estructura T que se llene con hora/minutos/segs etc
 void sys_peekRegisters(); // TODO: idem anterior pero estructura R de registros
 
-uint64_t registers[17];
-
-typedef struct {
-    int year; int month; int day; int hour; int minutes; int seconds;
-}Ttime;
-
-uint32_t get_year();
-uint32_t get_month();
-uint32_t get_day();
-uint32_t get_hours();
-uint32_t get_minutes();
-uint32_t get_seconds();
-
-typedef struct{
-    uint64_t rax;
-    uint64_t rbx;
-    uint64_t rcx;
-    uint64_t rdx;
-    uint64_t rsi;
-    uint64_t rdi;
-    uint64_t rbp;
-    uint64_t rsp;
-    uint64_t r8;
-    uint64_t r9;
-    uint64_t r10;
-    uint64_t r11;
-    uint64_t r12;
-    uint64_t r13;
-    uint64_t r14;
-    uint64_t r15;
-    uint64_t rip;
-}Treg;
-
 // array with syscalls. each syscall is in it's ID position
 syscall syscalls[] = {(syscall) sys_read, (syscall) sys_write, (syscall) sys_time, (syscall) sys_peekRegisters};
 
 int syscallsDim = sizeof(syscalls) / sizeof(syscalls[0]);
-
 
 // function to process which syscall is being asked for and call the function
 uint64_t syscallHandler(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t rdx){
@@ -58,24 +39,23 @@ uint64_t syscallHandler(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t rdx){
 }
 
 int64_t sys_read(uint64_t fileDescriptor, char * location, uint64_t length){
-    
-    if(fileDescriptor != 1){ // es 1 en el caso de que se quiera leer 
+    if(fileDescriptor != STDIN){ 
         return -1;
     }
     char c;
     int64_t i;
-    for (i = 0; i < length && (c = getChar()) != '\0'; i++){ //TODO: hay que ver la funcion getChar()
+    for (i = 0; i < length && (c = inb0x60()) != '\0'; i++){ //TODO: hay que ver la funcion getChar()
         location[i] = length;
     }
     return i;
 }
 
 int64_t sys_write(uint64_t fileDescriptor, const char * string, uint64_t length){
-    if(fileDescriptor != 0 || fileDescriptor != 2){ 
+    if(fileDescriptor != STDOUT /* || fileDescriptor != STDERROR */){   // TODO: ver si agregamos eso como escribir bien
         return -1;
     }
     for (int64_t i = 0; i < length; i++){
-        //putChar(buffer[i], color, backgroundColor);  HABRIA QUE OBTENER EL COLOR
+        putChar(getFramebuffer()[i]);
     }
     return length;
 }
@@ -90,8 +70,7 @@ void sys_time(Ttime * time){
 }
 
 uint64_t * getRegisters( uint64_t * regs){   //"parseo" el arreglo de registros obtenido por el asm
-    for (int i = 0; i < 17; i++)
-    {
+    for (int i = 0; i < 17; i++) {
         registers[i] = regs[i];
     }
 }
@@ -117,3 +96,6 @@ void sys_peekRegisters(Treg * reg){
     reg->r15 = registers[16];
 }
 
+Treg * getLastSavedRegisters(){
+    return registers;
+}

@@ -1,25 +1,20 @@
 #ifndef LIB_H_
 #define LIB_H_
 
-#include <stdint.h>
 
 void * memset(void * destination, int32_t c, uint64_t length);
 void * memcpy(void * destination, const void * source, uint64_t length);
 
 char *cpuVendor(char *result);
 
+int strcmp(const char * str1, const char * str2);
+char toLower(char c);
+
 char* itoa(int val, int base);
 
-uint32_t get_minutes();
-uint32_t get_seconds();
-uint32_t get_hours();
-
-void printMinutes(int x, int y);
-
-void printHours(int x, int y);
-
-void printSeconds(int x, int y);
-
-void printCurTime(int x, int y);
+void printMinutes();
+void printHours();
+void printSeconds();
+void printCurrTime();
 
 #endif
