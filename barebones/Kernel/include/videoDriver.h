@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define DEFAULT_WIDTH   10
+#define DEFAULT_WIDTH   8
 #define DEFAULT_HEIGHT  36
 
 uint8_t * getFramebuffer();
@@ -20,5 +20,6 @@ void incCurrentPosX(int increase);
 void resetCurrentPosX(int newPosX);
 void incCurrentPosY(int decrease);
 void resetCurrentPosY(int newPosY);
+void cleanScreen();
 
 #endif
