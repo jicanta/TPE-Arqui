@@ -14,6 +14,7 @@ void backSpace();
 void putChar(char c);
 void putString(char * c);
 void newLine();
+void spaceBar();
 void newLineC();
 void incCurrentPosX(int increase);
 void resetCurrentPosX(int newPosX);

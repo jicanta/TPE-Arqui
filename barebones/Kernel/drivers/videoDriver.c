@@ -188,6 +188,8 @@ int getHeight(){
     return DEFAULT_HEIGHT;
 }
 
+int offsett = 0;
+
 void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
     uint8_t * framebuffer = getFramebuffer();
     uint64_t offset = (x * ((VBE_mode_info->bpp)/8)) + (y * VBE_mode_info->pitch);
@@ -203,7 +205,7 @@ void draw_char(char c, uint32_t color, uint64_t x, uint64_t y) {
     for (int row = 0; row < 16; row++) {
         uint8_t bitmap_row = font_data[(uint8_t)c][row];
         for (int col = 0; col < 8; col++) {
-            if (bitmap_row & (1 << (7 - col))) {
+            if (bitmap_row & (1 << (7 - col)) || c == ' ') {
                 putPixel(color, x + col, y + row);
             }
         }
@@ -240,7 +242,7 @@ void backSpace(){
     currentPosX -= getWidth();
 }
 
-void spaceBar(){    // TODO: antes habia hecho que el space bar moviera para le derecha el currentPosX pero yo quiero un ascii del espacio para poder hacer strcmp, no funca esto nose pq ver si lo pueden arreglar
+void spaceBar() {    // TODO: antes habia hecho que el space bar moviera para le derecha el currentPosX pero yo quiero un ascii del espacio para poder hacer strcmp, no funca esto nose pq ver si lo pueden arreglar
     putChar(' ');   // TODO: falta encargarse del tema de hacer espacio y tener q pasar a la siguiente fila
 }
 
@@ -249,7 +251,7 @@ void tabBar(){
 }
 
 void putChar(char c){
-    draw_char(c, 0xFFFFFF, currentPosX, currentPosY);
+    draw_char(c, (c != ' ' ? 0xFFFFFF : 0x000000), currentPosX, currentPosY);
 }
 
 void putString(char * str){
