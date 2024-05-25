@@ -262,7 +262,7 @@ void putString(char * str){
 
 void newLine(){
     resetCurrentPosX(0);
-    incCurrentPosY(getHeight()/2);
+    incCurrentPosY(getHeight());
 }
 
 void newLineC(){
