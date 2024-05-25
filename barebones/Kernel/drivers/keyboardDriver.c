@@ -10,7 +10,7 @@
 #define LEFTCTRL        0x1D
 #define RIGHTCTRL       0xE01D
 #define ENTER           0x1C
-#define BACKSPACE       0x53
+#define BACKSPACE       0xE
 #define R               0x13
 #define SPACEBAR        0x39
 #define TABBAR          0x0F
@@ -59,16 +59,17 @@ void saveBuffer(){
 }
 
 char processKey(uint32_t scanCode){
-    if ((scanCode == ENTER) && ISPRESSED(scanCode)){
+    if ((scanCode == ENTER) && ISPRESSED(scanCode)) {
         saveBuffer();
         return 0;
-    }
-    if ((scanCode == BACKSPACE)  && ISPRESSED(scanCode)){   // we do not want it to act when released
+    } 
+    // AGREGAR ISPRESSED
+    if ((scanCode == BACKSPACE) && ISPRESSED(scanCode)) {   // we do not want it to act when releases
         bufferSize--;
         backSpace();
         return 0;
     }
-    if ((scanCode == SPACEBAR) && ISPRESSED(scanCode)){     // we do not want it to act when released
+    if ((scanCode == SPACEBAR) && ISPRESSED(scanCode)) {     // we do not want it to act when released
         spaceBar();
         return 0;
     }

@@ -2,7 +2,7 @@
 #include <syscalls.h>
 #include <lib.h>
 
-#define COMMDIM  7      // TODO: no me gusta el magic number me gustaria mas un size of
+#define COMMDIM  8      // TODO: no me gusta el magic number me gustaria mas un size of
 #define REGS     18
 
 extern void exception00();
@@ -43,13 +43,13 @@ void help(){        // TODO: ver si la cambiamos o dejamos esto
 
 void divzero() {
     newLine();
-    // putString("Dividiste por cero bu");
+    putString("Dividiste por cero bu");
     // exception00();
 }
 
 void invopcode() {
     newLine();
-    // putString("invalid op code lololol");
+    putString("invalid op code lololol");
     // exception06();
 }
 
@@ -69,16 +69,20 @@ void getregisters() {
 }
 
 void zoomin() {
-    // putString("zoom");
+    putString("zoom");
     return ;
 }
 
 void zoomout() {
-    // putString("chau zoom");
+    putString("chau zoom");
     return ;
 }
 
-comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoomin"}, {zoomout, "zoomout"}};
+void clear(){
+    cleanScreen();
+}
+
+comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoomin"}, {zoomout, "zoomout"}, {clear, "clear"}};
 
 void interpretCommand(char * buffer){
     int i = 0;

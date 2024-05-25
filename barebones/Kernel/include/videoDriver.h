@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 
-#define DEFAULT_WIDTH   10
-#define DEFAULT_HEIGHT  36
+#define DEFAULT_WIDTH   8
+#define DEFAULT_HEIGHT  18
 
 uint8_t * getFramebuffer();
 int getWidth();
@@ -14,10 +14,12 @@ void backSpace();
 void putChar(char c);
 void putString(char * c);
 void newLine();
+void spaceBar();
 void newLineC();
 void incCurrentPosX(int increase);
 void resetCurrentPosX(int newPosX);
 void incCurrentPosY(int decrease);
 void resetCurrentPosY(int newPosY);
+void cleanScreen();
 
 #endif
