@@ -12,3 +12,4 @@
 compile.sh
 run.sh
 .tgdbinit
+*.elf
