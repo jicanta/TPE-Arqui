@@ -90,7 +90,11 @@ char processKey(uint32_t scanCode){
         return 0;
     }
     if (ctrlPressed && (scanCode == R)){                       // CTRL + R saves registers at any given moment
-        sys_peekRegisters(getLastSavedRegisters());       // save current register status
+        //putChar('2');
+        //TODO: crear matriz, y mandarla a la syscall.
+        ctrlPressed = 0;
+        sys_call(4);
+        //sys_peekRegisters();       // save current register status
         return 0;
     }
     if (!ISPRESSED(scanCode) || keysMap[ISUPPERCASE(scanCode) ? UPPERCASE:LOWERCASE][KEY_ASCII(scanCode)] == 0){     // we should ignore scanCodes received from released key

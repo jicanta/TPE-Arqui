@@ -7,7 +7,7 @@ typedef void (*ints)();
 
 // timer tick interruption
 static void int_20(){
-    // TODO: completar
+    
 }
 
 // keyboard interruption

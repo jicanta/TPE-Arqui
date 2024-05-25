@@ -7,7 +7,8 @@
 
 extern void exception00();
 extern void exception06();
-extern void sys_call(int id);
+//extern void sys_call(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t rdx);
+extern void sys_call(uint64_t id);
 
 typedef struct {
     void (* fn)();
@@ -54,17 +55,17 @@ void invopcode() {
 
 void time() {
     newLine();
-    // putString("tiempoooooo");
-    // sys_call(3);
+    sys_call(3);
 }
 
 void getregisters() {
     newLine();
-    // putString("holi holi");
-    /* for (int i = 0; i < REGS ; i++){
-        putString("hola");
+    uint64_t * registers = getLastSavedRegisters();
+    newLine();
+     for (int i = 0; i < 17 ; i++){
+        putString(itoa(registers[i],10));
         newLine();
-    } */
+    }
 }
 
 void zoomin() {

@@ -85,16 +85,6 @@ section .text
 	iretq
 %endmacro
 
-%macro syscallHandlerMaster 1
-	pushState
-	
-	mov rdi, %1			; passing argument
-	call syscallHandler 
-
-	popState
-	iretq
-%endmacro
-
 _hlt:
 	sti
 	hlt
@@ -157,7 +147,11 @@ exception06:
     exceptionHandlerMaster 1
 
 sys_call:
-	syscallHandlerMaster [ebp+4]
+	pushState
+	call syscallHandler
+	popState
+	;iretq
+	ret
 
 haltcpu:
 	cli
@@ -187,7 +181,8 @@ registerSnapshot:
 		mov [registers + 8 * 16], r15
 
 		mov rdi, registers    ; TODO: no estoy seguro de que este pasando bien los parametros
-		call getRegisters
+		popState
+		;call getRegisters
 
 SECTION .bss
 	aux resq 1

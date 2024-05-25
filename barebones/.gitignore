@@ -9,3 +9,6 @@
 
 #Object files
 *.o
+compile.sh
+run.sh
+.tgdbinit
