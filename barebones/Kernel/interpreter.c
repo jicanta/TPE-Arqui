@@ -78,7 +78,6 @@ void zoomout() {
 }
 
 void clear(){
-    putString("clearrrr");
     cleanScreen();
 }
 

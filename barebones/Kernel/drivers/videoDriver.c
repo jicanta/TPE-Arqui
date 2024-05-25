@@ -1,7 +1,11 @@
 #include <videoDriver.h>
 
-static int currentPosX = 0;
-static int currentPosY = 0;
+// TODO: sacar inclue
+#include <naiveConsole.h>
+
+int currentPosX = 0;
+int currentPosY = 0;
+int startY = 0;
 
 #define SPACING 2
 
@@ -217,11 +221,13 @@ void draw_string(char * s, uint32_t color, uint64_t x, uint64_t y, uint8_t lengt
 }
 
 void backSpace(){
-    if (currentPosX - getWidth() <= 0){         // TODO: no creo que funcione bien el tema de que al borrar el primer caracter salte a la linea anterior, chequear
-        incCurrentPosX(-getWidth());
-        spaceBar();
-        resetCurrentPosX(VBE_mode_info->width);
+    if (currentPosY == startY && currentPosX == 2 * (getWidth() + SPACING)) {
+        return;
+    }
+    if (currentPosX - getWidth() - SPACING <= 0) {         // TODO: no creo que funcione bien el tema de que al borrar el primer caracter salte a la linea anterior, chequear
+        resetCurrentPosX(VBE_mode_info->width - 10);
         incCurrentPosY(-getHeight());
+        putChar('A');
     }
     incCurrentPosX(-getWidth() - SPACING);
     spaceBar();
@@ -237,6 +243,10 @@ void tabBar(){
 }
 
 void putChar(char c){
+    if (currentPosX + getWidth() + SPACING >= VBE_mode_info->width) {
+        resetCurrentPosX(0);
+        incCurrentPosY(getHeight());
+    }
     draw_char(c, 0xFFFFFF, currentPosX, currentPosY);
     incCurrentPosX(getWidth() + SPACING);
 }
@@ -257,8 +267,9 @@ void newLine(){
 
 void newLineC(){
     resetCurrentPosX(0);
-    incCurrentPosY(getHeight()/2);
+    incCurrentPosY(getHeight());
     putChar('$');
+    startY = currentPosY;
     spaceBar();
 }
 
@@ -272,7 +283,7 @@ void cleanScreen() {
     resetCurrentPosY(0);
 }
 
-void incCurrentPosX(int increase){
+void incCurrentPosX(int increase) {
     currentPosX += increase;
 }
 void resetCurrentPosX(int newPosX){
