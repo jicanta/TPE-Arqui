@@ -224,13 +224,13 @@ void backSpace(){
     if (currentPosY == startY && currentPosX == 2 * (getWidth() + SPACING)) {
         return;
     }
-    if (currentPosX - getWidth() - SPACING <= 0) {         // TODO: no creo que funcione bien el tema de que al borrar el primer caracter salte a la linea anterior, chequear
-        resetCurrentPosX(VBE_mode_info->width - 10);
-        incCurrentPosY(-getHeight());
-        putChar('A');
-    }
     incCurrentPosX(-getWidth() - SPACING);
     spaceBar();
+    if (currentPosX - getWidth() - SPACING <= 0) {
+	incCurrentPosY(-getHeight());
+	resetCurrentPosX(VBE_mode_info->width - getWidth() + SPACING + 1);
+	return;
+    }
     incCurrentPosX(-getWidth() - SPACING);
 }
 
@@ -260,6 +260,9 @@ void putString(char * str){
     incCurrentPosX((i-1) * getWidth());
 }
 
+// TODO: JOSE VOS QUE HICISTE ESTO, ACA DEBERIAMOS ACTUALIZAR TMB EL STARTY?
+// EN QUE CAMBIA NEWLine y newlineC?
+
 void newLine(){
     resetCurrentPosX(0);
     incCurrentPosY(getHeight());
@@ -273,6 +276,7 @@ void newLineC(){
     spaceBar();
 }
 
+// TODO: SACAR MAGIC NUMBERS (VBE_mode_info->width y height)
 void cleanScreen() {
     for (int i=0; i <= 1024; i++){
         for (int j=0; j <= 768; j++){
@@ -289,8 +293,8 @@ void incCurrentPosX(int increase) {
 void resetCurrentPosX(int newPosX){
     currentPosX = newPosX;
 }
-void incCurrentPosY(int decrease){
-    currentPosY += decrease;
+void incCurrentPosY(int increase){
+    currentPosY += increase;
 }
 void resetCurrentPosY(int newPosY){
     currentPosY = newPosY;
