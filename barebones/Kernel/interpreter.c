@@ -9,6 +9,7 @@ extern void exception00();
 extern void exception06();
 //extern void sys_call(uint64_t rax, uint64_t rdi, uint64_t rsi, uint64_t rdx);
 extern void sys_call(uint64_t id);
+extern void sys_time_front_asm();
 
 typedef struct {
     void (* fn)();
@@ -55,7 +56,7 @@ void invopcode() {
 
 void time() {
     newLine();
-    sys_call(3);
+    sys_time_front_asm();
 }
 
 void getregisters() {

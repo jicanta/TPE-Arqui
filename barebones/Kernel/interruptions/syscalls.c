@@ -5,6 +5,7 @@
 #define STDIN       0
 #define STDOUT      1
 #define STDERROR    2
+#define SCALLSDIM 4
 
 static uint64_t *registers;
 
@@ -15,6 +16,9 @@ extern uint32_t get_day();
 extern uint32_t get_hours();
 extern uint32_t get_minutes();
 extern uint32_t get_seconds();
+extern uint64_t *registerSnapshot();
+extern void sys_time_asm();
+extern void sys_registers_asm();
 extern void _sti();
 extern void _cli();
 
@@ -29,30 +33,30 @@ void sys_time(); // TODO: podemos hacer que la imprima o que reciba como paramet
 void sys_peekRegisters(); // TODO: idem anterior pero estructura R de registros
 
 // array with syscalls. each syscall is in it's ID position
-syscall syscalls[] = {(syscall) sys_read, (syscall) sys_write, (syscall) sys_time, (syscall) sys_peekRegisters};
+//syscall syscalls[] = {(syscall) sys_read, (syscall) sys_write, (syscall) sys_time, (syscall) sys_peekRegisters};
 
-int syscallsDim = sizeof(syscalls) / sizeof(syscalls[0]);
+//int syscallsDim = sizeof(syscalls) / sizeof(syscalls[0]);
 
 // function to process which syscall is being asked for and call the function
 uint64_t syscallHandler(uint64_t rax/*, uint64_t rdi, uint64_t rsi, uint64_t rdx*/){
-    if (rax < 0 || rax > syscallsDim){     
+    if (rax < 0 || rax > SCALLSDIM){     
         return -1;      // syscall does not exist
     }
     switch (rax)
     {
         case 1:  
             //_sti();
-            //sys_read();
+            //sys_read_asm();
             //_cli();
             break;
         case 2:
-            //sys_write();
+            //sys_write_asm();
             break;
         case 3:
-            sys_time();
+            sys_time_asm();
             break;
         case 4:
-            sys_peekRegisters();
+            sys_registers_asm();
             break;
         
         default:

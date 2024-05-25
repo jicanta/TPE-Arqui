@@ -27,6 +27,8 @@
 #define ISPRESSED(key)      (((key) & UNPRESSEDCODE) == 0)
 #define KEY_ASCII(scanCode) ((scanCode) & MASK)    
 
+extern void sys_registers_front_asm();
+
 char totalBuffer[250];
 int bufferSize = 0;         // TODO: ver si sirve de algo buffer size o no
 int mayuscOn = 0;           // turned on if block mayusc is on
@@ -93,9 +95,8 @@ char processKey(uint32_t scanCode){
     if (ctrlPressed && (scanCode == R)){                       // CTRL + R saves registers at any given moment
         //putChar('2');
         //TODO: crear matriz, y mandarla a la syscall.
-        ctrlPressed = 0;
-        sys_call(4);
-        //sys_peekRegisters();       // save current register status
+        ctrlPressed = 0;  //TODO: ver si no se puede arreglar de una forma menos villera
+        sys_registers_front_asm();
         return 0;
     }
     if (!ISPRESSED(scanCode) || keysMap[ISUPPERCASE(scanCode) ? UPPERCASE:LOWERCASE][KEY_ASCII(scanCode)] == 0){     // we should ignore scanCodes received from released key

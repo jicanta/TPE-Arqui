@@ -7,7 +7,7 @@ typedef void (*ints)();
 
 // timer tick interruption
 static void int_20(){
-    
+    //TODO: se podria hacer "titilar" el cursor donde te encontras, nose como se haria bien eso
 }
 
 // keyboard interruption

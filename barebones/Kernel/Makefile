@@ -5,6 +5,8 @@ SOURCES=$(wildcard *.c) $(wildcard drivers/*.c) $(wildcard interruptions/*.c)
 SOURCES_ASM=$(wildcard asm/*.asm)
 OBJECTS=$(SOURCES:.c=.o)
 OBJECTS_ASM=$(SOURCES_ASM:.asm=.o)
+SOURCES_ASM_BACK==$(wildcard backAsm/*.asm)   #TODO:
+OBJECTS_ASM_BACK=$(SOURCES_ASM_BACK:.asm=.o)  #TODO: 
 LOADERSRC=loader.asm
 
 LOADEROBJECT=$(LOADERSRC:.asm=.o)
@@ -12,7 +14,7 @@ STATICLIBS=
 
 all: $(KERNEL)
 
-$(KERNEL): $(LOADEROBJECT) $(OBJECTS) $(STATICLIBS) $(OBJECTS_ASM)
+$(KERNEL): $(LOADEROBJECT) $(OBJECTS) $(STATICLIBS) $(OBJECTS_ASM) 
 	$(LD) $(LDFLAGS) -T kernel.ld -o $(KERNEL) $(LOADEROBJECT) $(OBJECTS) $(OBJECTS_ASM) $(STATICLIBS)
 	$(LD) $(LDFLAGS) -T kernel.ld --oformat=elf64-x86-64 -o kernel.elf $(LOADEROBJECT) $(OBJECTS) $(OBJECTS_ASM) $(STATICLIBS)
 
@@ -26,6 +28,6 @@ $(LOADEROBJECT):
 	$(ASM) $(ASMFLAGS) $(LOADERSRC) -o $(LOADEROBJECT)
 
 clean:
-	rm -rf asm/*.o *.o *.bin drivers/*.o interruptions/*.o
+	rm -rf asm/*.o *.o *.bin drivers/*.o interruptions/*.o backAsm
 
 .PHONY: all clean

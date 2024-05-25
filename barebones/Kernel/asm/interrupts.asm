@@ -150,8 +150,8 @@ sys_call:
 	pushState
 	call syscallHandler
 	popState
-	;iretq
-	ret
+	iretq
+	;ret
 
 haltcpu:
 	cli
@@ -160,10 +160,10 @@ haltcpu:
 
 registerSnapshot:
 		pushState
-		mov [registers], rax
-		mov [registers + 8 * 1], rbx
-		mov [registers + 8 * 2], rcx
-		mov [registers + 8 * 3], rdx
+		mov QWORD [registers], 545
+		mov QWORD[registers + 8 * 1], 545
+		mov QWORD[registers + 8 * 2], 545
+		mov QWORD[registers + 8 * 3], 545
 		mov [registers + 8 * 4], rbp
 		mov [registers + 8 * 5], rdi
 		mov [registers + 8 * 6], rsi   
@@ -182,7 +182,7 @@ registerSnapshot:
 
 		mov rdi, registers    ; TODO: no estoy seguro de que este pasando bien los parametros
 		popState
-		;call getRegisters
+		ret
 
 SECTION .bss
 	aux resq 1
