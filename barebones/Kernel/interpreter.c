@@ -11,6 +11,9 @@ extern void exception06();
 extern void sys_call(uint64_t id);
 extern void sys_time_front_asm();
 
+extern void exception06_asm();
+extern void exception00_asm();
+
 typedef struct {
     void (* fn)();
     char * name;
@@ -44,14 +47,12 @@ void help(){        // TODO: ver si la cambiamos o dejamos esto
 
 void divzero() {
     newLine();
-    putString("Dividiste por cero bu");
-    // exception00();
+    exception00_asm();
 }
 
 void invopcode() {
     newLine();
-    putString("invalid op code lololol");
-    // exception06();
+    exception06_asm();
 }
 
 void time() {

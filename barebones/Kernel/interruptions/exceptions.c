@@ -20,7 +20,7 @@ void invalid_op_code() {
 	// TODO: falta recuperar el stack y que todo vuelva a estar como estaba antes
 }
 
-void reserved(){
+void reserved(){  //TODO: SIRVE DE ALGO??
 	return ;
 	// TODO: falta recuperar el stack y que todo vuelva a estar como estaba antes
 }
@@ -32,9 +32,12 @@ void handler(excep e){
 }
 
 void exceptionHandler(int excepNum) {		// TODO: esta mal
-	if (excepNum != ZERODIVISION || excepNum != INVALIDOPCODE){
-		return ;		// exception does not exist
+	switch(excepNum){
+		case ZERODIVISION:
+			zero_division();
+			break;
+		case  INVALIDOPCODE:
+			invalid_op_code();
+			break;
 	}
-	handler(exceptions[excepNum]);
-	return ;
 }

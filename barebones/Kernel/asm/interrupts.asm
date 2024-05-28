@@ -140,18 +140,27 @@ _irq05Handler:
 
 ; division by zero exception
 exception00:
-	exceptionHandlerMaster 0
+
+	pushState
+	mov rdi, 0
+	call exceptionHandler
+	popState
+	iretq
 
 ; invalid op code exception
 exception06:
-    exceptionHandlerMaster 1
+
+	pushState
+	mov rdi, 6
+	call exceptionHandler
+	popState
+	iretq
 
 sys_call:
 	pushState
 	call syscallHandler
 	popState
 	iretq
-	;ret
 
 haltcpu:
 	cli

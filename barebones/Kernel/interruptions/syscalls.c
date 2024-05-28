@@ -53,10 +53,10 @@ uint64_t syscallHandler(uint64_t rax/*, uint64_t rdi, uint64_t rsi, uint64_t rdx
             //sys_write_asm();
             break;
         case 3:
-            sys_time_asm();
+            sys_time();
             break;
         case 4:
-            sys_registers_asm();
+            sys_peekRegisters();
             break;
         
         default:

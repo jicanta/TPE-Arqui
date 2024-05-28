@@ -12,4 +12,4 @@
 compile.sh
 run.sh
 .tgdbinit
-*.elf
+kernel.elf
