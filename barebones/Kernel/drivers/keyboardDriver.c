@@ -67,8 +67,7 @@ char processKey(uint32_t scanCode){
     } 
     // AGREGAR ISPRESSED
     if ((scanCode == BACKSPACE) && ISPRESSED(scanCode)) {   // we do not want it to act when releases
-        bufferSize--;
-        backSpace();
+        bufferSize -= backSpace();
         return 0;
     }
     if ((scanCode == SPACEBAR) && ISPRESSED(scanCode)) {     // we do not want it to act when released

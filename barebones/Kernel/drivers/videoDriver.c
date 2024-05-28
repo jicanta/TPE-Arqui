@@ -220,18 +220,19 @@ void draw_string(char * s, uint32_t color, uint64_t x, uint64_t y, uint8_t lengt
     }
 }
 
-void backSpace(){
+int backSpace(){
     if (currentPosY == startY && currentPosX == 2 * (getWidth() + SPACING)) {
-        return;
+        return 0;
     }
     incCurrentPosX(-getWidth() - SPACING);
     spaceBar();
     if (currentPosX - getWidth() - SPACING <= 0) {
 	incCurrentPosY(-getHeight());
 	resetCurrentPosX(VBE_mode_info->width - getWidth() + SPACING + 2);
-	return;
+	return 1;
     }
     incCurrentPosX(-getWidth() - SPACING);
+    return 1;
 }
 
 void spaceBar() {    // TODO: antes habia hecho que el space bar moviera para le derecha el currentPosX pero yo quiero un ascii del espacio para poder hacer strcmp, no funca esto nose pq ver si lo pueden arreglar
