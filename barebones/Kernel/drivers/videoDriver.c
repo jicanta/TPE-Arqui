@@ -228,7 +228,7 @@ void backSpace(){
     spaceBar();
     if (currentPosX - getWidth() - SPACING <= 0) {
 	incCurrentPosY(-getHeight());
-	resetCurrentPosX(VBE_mode_info->width - getWidth() + SPACING + 1);
+	resetCurrentPosX(VBE_mode_info->width - getWidth() + SPACING + 2);
 	return;
     }
     incCurrentPosX(-getWidth() - SPACING);
