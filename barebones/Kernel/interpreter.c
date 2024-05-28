@@ -14,6 +14,8 @@ extern void sys_time_front_asm();
 extern void exception06_asm();
 extern void exception00_asm();
 
+extern void sys_clean_front_asm();
+
 typedef struct {
     void (* fn)();
     char * name;
@@ -81,7 +83,8 @@ void zoomout() {
 }
 
 void clear(){
-    cleanScreen();
+    sys_clean_front_asm();
+    return;
 }
 
 comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoomin"}, {zoomout, "zoomout"}, {clear, "clear"}};

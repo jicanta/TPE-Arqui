@@ -4,6 +4,7 @@ GLOBAL sys_read_front_asm
 GLOBAL sys_write_front_asm
 GLOBAL exception00_asm
 GLOBAL exception06_asm
+GLOBAL sys_clean_front_asm
 
 ;TODO: VER COMO PASAMOS LOS PARAMETROS, SI LOS HACEMOS A TRAVES DE RAX, RBX, RCX, RDX O METEMOS CUALQUIERA.
 ;TODO: el archivo tendria que estar en UserLand, que es el front, pero x problemas con el MakeFile lo puse aca para que ande
@@ -70,6 +71,16 @@ sys_write_front_asm:
         popState
         ret
 
+sys_read_front_asm:
+        pushState
+        mov rcx, rdx
+        mov rdx, rsi
+        mov rsi, rdi
+        mov rdi, 1
+        int 80h
+        popState
+        ret
+
 exception00_asm:
         pushState
         int 00h
@@ -81,3 +92,10 @@ exception06_asm:
         int 06h
         popState
         ret
+
+sys_clean_front_asm:
+		pushState
+		mov rdi, 5
+		int 80h
+		popState
+		ret

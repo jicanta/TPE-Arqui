@@ -5,7 +5,7 @@
 #define STDIN       0
 #define STDOUT      1
 #define STDERROR    2
-#define SCALLSDIM 4
+#define SCALLSDIM   5
 
 static uint64_t *registers;
 
@@ -38,11 +38,11 @@ void sys_peekRegisters(); // TODO: idem anterior pero estructura R de registros
 //int syscallsDim = sizeof(syscalls) / sizeof(syscalls[0]);
 
 // function to process which syscall is being asked for and call the function
-uint64_t syscallHandler(uint64_t rax/*, uint64_t rdi, uint64_t rsi, uint64_t rdx*/){
-    if (rax < 0 || rax > SCALLSDIM){     
+uint64_t syscallHandler(uint64_t id/*, uint64_t rdi, uint64_t rsi, uint64_t rdx*/){
+    if (id < 0 || id > SCALLSDIM){     
         return -1;      // syscall does not exist
     }
-    switch (rax)
+    switch (id)
     {
         case 1:  
             //_sti();
@@ -58,7 +58,10 @@ uint64_t syscallHandler(uint64_t rax/*, uint64_t rdi, uint64_t rsi, uint64_t rdx
         case 4:
             sys_peekRegisters();
             break;
-        
+        case 5:
+            cleanScreen();
+            break;
+
         default:
             break;
     }
