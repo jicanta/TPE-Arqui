@@ -1,4 +1,6 @@
 GLOBAL cpuVendor
+GLOBAL inPIT
+GLOBAL outPIT
 
 section .text
 	
@@ -25,3 +27,26 @@ cpuVendor:
 	mov rsp, rbp
 	pop rbp
 	ret
+
+inPIT:
+       push rbp
+       mov rbp, rsp
+       
+       mov rdx, rdi
+       in al, dx
+       
+       mov rsp, rbp
+       pop rbp
+       ret
+
+outPIT:
+       push rbp
+       mov rbp, rsp
+       
+       mov rax, rsi
+       mov rdx, rsi
+       out dx, al
+       
+       mov rsp, rbp
+       pop rbp
+       ret

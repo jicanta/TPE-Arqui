@@ -6,7 +6,7 @@
 // TODO: borrar
 #include <videoDriver.h>
 #include <interrupts.h>
-
+#include <soundDriver.h>
 extern void _hlt();
 extern void load_idt();
 
@@ -88,6 +88,7 @@ void * initializeKernelBinary()
 
 int main() {
 	load_idt();
+	beep();
 	newLineC();
 	ncPrint("[Kernel Main]");
 	ncNewline();
