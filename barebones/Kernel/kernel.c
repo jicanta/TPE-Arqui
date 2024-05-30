@@ -44,9 +44,35 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
+
+
 int main() {
 	load_idt();
-	beep();
+	beep(261);
+	beep(261);
+	beep(293);
+	beep(261);
+	beep(349);
+	beep(329);
+	beep(261);
+	beep(261);
+	beep(293);
+	beep(261);
+	beep(392);
+	beep(349);
+	beep(261);
+	beep(261);
+	beep(523);
+	beep(440);
+	beep(349);
+	beep(329);
+	beep(293);
+	beep(466);
+	beep(466);
+	beep(440);
+	beep(349);
+	beep(392);
+	beep(349);
 	((EntryPoint)sampleCodeModuleAddress)();
 	while(1) {
 		_hlt();

@@ -6,8 +6,8 @@
 
 #define DEFAULT_STR_LEN     20
 
-extern void sys_read_front_asm(uint64_t fd, char * loc, uint64_t length);
-extern void sys_write_front_asm(uint64_t fd, char * str);
+void sys_read_front_asm(uint64_t fd, char * loc, uint64_t length);
+void sys_write_front_asm(uint64_t fd, char * str);
 
 char * itoa(int val, int base) {
     if (val < 10) {
