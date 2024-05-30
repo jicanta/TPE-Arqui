@@ -22,6 +22,9 @@ extern void sys_time_asm();
 extern void sys_registers_asm();
 extern void _sti();
 extern void _cli();
+extern void sys_getkeypressed_asm();
+extern void sys_fillrect_asm();
+extern void sys_write_at_asm();
 
 // TODO: check if any other syscalls must be created
 
@@ -53,9 +56,25 @@ uint64_t syscallHandler(uint64_t id){
         case 5:
             cleanScreen();
             break;
+        case 6:
+            sys_getkeypressed_asm();
+            break;
+        case 7:
+            sys_fillrect_asm();
+            break;
+        case 8:
+            sys_write_at_asm();
+            break;
         default:
             break;
     }
+}
+
+void sys_getkeypressed(uint64_t fileDescriptor, char * location){
+        if(fileDescriptor != STDIN) { 
+        return -1;
+    }
+    *(location) = getLastPressedSC();
 }
 
 void sys_read(uint64_t fileDescriptor, char * location, uint64_t length){
@@ -101,4 +120,15 @@ void printRegisters(){
         putString(itoa(registers[i],10));
         newLine();
     }
+}
+
+void sys_fillrect(uint64_t x, uint64_t y){
+    // TODO: nose como hacerlo bien
+}
+
+void sys_write_at(uint64_t fileDescriptor, const char * string, uint64_t x, uint64_t y){
+    if(fileDescriptor != STDOUT) {
+        return -1;
+    }
+    //putStringAt(string,x,y);    TODO: nose como hacerlo bien
 }

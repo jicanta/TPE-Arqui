@@ -2,7 +2,13 @@ GLOBAL sys_time_asm
 GLOBAL sys_read_asm
 GLOBAL sys_write_asm
 GLOBAL sys_registers_asm
+GLOBAL sys_getkeypressed_asm
+GLOBAL sys_fillrect_asm
+GLOBAL sys_write_at_asm
 
+EXTERN sys_write_at
+EXTERN sys_fillrect
+EXTERN sys_getkeypressed
 EXTERN sys_time
 EXTERN sys_peekRegisters
 EXTERN sys_write
@@ -60,5 +66,31 @@ sys_read_asm:    ; en rdi:id, rsi:fd, rdx:buff, rcx: size
         mov rsi, rdx
         mov rdx, rcx
         call sys_read
+        popState
+        ret
+
+sys_getkeypressed_asm:
+		pushState
+        mov rdi, rsi
+        mov rsi, rdx
+        call sys_getkeypressed
+        popState
+        ret
+
+sys_fillrect_asm:
+		pushState
+        mov rdi, rsi
+        mov rsi, rdx
+        call sys_fillrect
+        popState
+        ret
+
+sys_write_at_asm:
+		pushState
+        mov rdi, rsi
+        mov rsi, rdx
+        mov rdx, rcx
+		mov rcx, r8
+        call sys_write_at
         popState
         ret

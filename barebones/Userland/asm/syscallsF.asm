@@ -3,6 +3,9 @@ GLOBAL sys_registers_front_asm
 GLOBAL sys_read_front_asm
 GLOBAL sys_write_front_asm
 GLOBAL sys_clean_front_asm
+GLOBAL sys_getkeypressed_front_asm
+GLOBAL sys_fillrect_front_asm
+GLOBAL sys_write_at_front_asm
 
 %macro pushState 0
 	push rax
@@ -79,3 +82,32 @@ sys_clean_front_asm:
 		int 80h
 		popState
 		ret
+
+sys_getkeypressed_front_asm:
+		pushState
+        mov rdx, rsi
+        mov rsi, rdi
+        mov rdi, 6
+        int 80h
+        popState
+        ret
+
+sys_fillrect_front_asm:
+		pushState
+        mov rdx, rsi
+        mov rsi, rdi
+        mov rdi, 7
+        int 80h
+        popState
+        ret
+
+sys_write_at_front_asm:
+		pushState
+		mov r8, rcx
+        mov rcx, rdx
+        mov rdx, rsi
+        mov rsi, rdi
+        mov rdi, 8
+        int 80h
+        popState
+        ret
