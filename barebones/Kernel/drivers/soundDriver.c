@@ -5,7 +5,7 @@ extern uint8_t inPIT(int register);
 
 void playSound(uint32_t nFrequence) {
     uint32_t Div;
-    uint32_t tmp;
+    uint8_t tmp;
 
     Div = 1193180 / nFrequence;
     outPIT(0x43, 0xb6);
@@ -24,7 +24,7 @@ void stopSound() {
 }
 
 void beep() {
-   for(int i = 0; i < 100; i++) playSound(1000);
+   for(int i = 0; i < 100000; i++) playSound(1000);
     // aca deberia ir un timerWait
     stopSound();
 }
