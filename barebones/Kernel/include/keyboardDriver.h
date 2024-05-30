@@ -11,4 +11,8 @@ int fullBuffer();
 
 int emptyBuffer();
 
+uint32_t getLastPressedSC();
+
+char getLastAscii();
+
 #endif

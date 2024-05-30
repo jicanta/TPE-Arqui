@@ -11,8 +11,6 @@ sampleDataModule:
 	printf "This is sample data." >> $(SAMPLE_DATA) && dd if=/dev/zero bs=1 count=1 >> $(SAMPLE_DATA)
 
 clean:
-	cd SampleCodeModule; make clean
-	rm -rf *.bin
-
+	rm -rf asm/*.o *.o *.bin 
 
 .PHONY: sampleCodeModule all clean

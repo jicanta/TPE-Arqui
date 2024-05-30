@@ -13,8 +13,7 @@ void * memset(void * destination, int32_t c, uint64_t length)
 	return destination;
 }
 
-void * memcpy(void * destination, const void * source, uint64_t length)
-{
+void * memcpy(void * destination, const void * source, uint64_t length) {
 	/*
 	* memcpy does not support overlapping buffers, so always do it
 	* forwards. (Don't change this without adjusting memmove.)
@@ -51,70 +50,18 @@ void * memcpy(void * destination, const void * source, uint64_t length)
 	return destination;
 }
 
-char toLower(char c) {
-    if (c >= 'A' && c <= 'Z') {
-        return c + ('a' - 'A');
-    }
-    return c;
-}
-
-int strcmp(const char * str1, const char * str2){		// 0 if strings are equal, 1 if not
-	while (*str1 && *str2) {
-        if (toLower((unsigned char)*str1) != toLower((unsigned char)*str2)) {
-            return 1;  // strings are not equal
-        }
-        str1++;
-        str2++;
-    }
-    // if both strings end simultaneously, they are equal
-    return (*str1 == '\0' && *str2 == '\0') ? 0 : 1;
-}
-
-char* itoa(int val, int base) {
+char * itoa(int val, int base) {
     if (val < 10) {
-	static char s[3];
-	s[0] = '0';
-	s[1] = val + '0';
-	s[2] = '\0';
-	return s;
+	    static char s[3];
+	    s[0] = '0';
+	    s[1] = val + '0';
+	    s[2] = '\0';
+	    return s;
     }
-
     static char buf[32] = {0};
-
     int i = 30;
-
-    for(; val && i ; --i, val /= base)
-
+    for(; val && i ; --i, val /= base) {
         buf[i] = "0123456789abcdef"[val % base];
-
+    }
     return &buf[i+1];
-	
-}
-
-extern uint32_t get_minutes();
-extern uint32_t get_seconds();
-extern uint32_t get_hours();
-
-void printMinutes() {
-	putString(itoa(get_minutes(), 10)); putChar('m');
-}
-
-void printHours() {
-	putString(itoa(get_hours() - 0x3, 10)); putChar('h');
-}
-
-void printSeconds() {
-    putString(itoa(get_seconds(), 10)); putChar('s');
-}
-
-void printCurTime() {
-	newLine();
-	putString("Time:");
-	putChar('\t');
-	printHours();
-	putChar(': ');
-	printMinutes();
-	putChar(": ");
-	printSeconds();
-	newLineC();
 }

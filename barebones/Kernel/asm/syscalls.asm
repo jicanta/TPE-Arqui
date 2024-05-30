@@ -50,7 +50,6 @@ sys_write_asm:    ; en rdi:id, rsi:fd, rdx:buff, rcx: size
         pushState
         mov rdi, rsi
         mov rsi, rdx
-        mov rdx, rcx
         call sys_write
         popState
         ret
