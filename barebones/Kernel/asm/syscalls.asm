@@ -5,13 +5,7 @@ GLOBAL sys_registers_asm
 GLOBAL sys_getkeypressed_asm
 GLOBAL sys_fillrect_asm
 GLOBAL sys_write_at_asm
-GLOBAL sys_getkeypressed_asm
-GLOBAL sys_fillrect_asm
-GLOBAL sys_write_at_asm
 
-EXTERN sys_write_at
-EXTERN sys_fillrect
-EXTERN sys_getkeypressed
 EXTERN sys_write_at
 EXTERN sys_fillrect
 EXTERN sys_getkeypressed
@@ -75,14 +69,6 @@ sys_read_asm:    ; en rdi:id, rsi:fd, rdx:buff, rcx: size
         popState
         ret
 
-		sys_getkeypressed_asm:
-		pushState
-        mov rdi, rsi
-        mov rsi, rdx
-        call sys_getkeypressed
-        popState
-        ret
-
 sys_fillrect_asm:
 		pushState
         mov rdi, rsi
@@ -106,23 +92,5 @@ sys_getkeypressed_asm:
         mov rdi, rsi
         mov rsi, rdx
         call sys_getkeypressed
-        popState
-        ret
-
-sys_fillrect_asm:
-		pushState
-        mov rdi, rsi
-        mov rsi, rdx
-        call sys_fillrect
-        popState
-        ret
-
-sys_write_at_asm:
-		pushState
-        mov rdi, rsi
-        mov rsi, rdx
-        mov rdx, rcx
-		mov rcx, r8
-        call sys_write_at
         popState
         ret

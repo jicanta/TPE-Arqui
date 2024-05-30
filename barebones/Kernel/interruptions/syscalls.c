@@ -70,13 +70,6 @@ uint64_t syscallHandler(uint64_t id){
     }
 }
 
-void sys_getkeypressed(uint64_t fileDescriptor, char * location){
-        if(fileDescriptor != STDIN) { 
-        return -1;
-    }
-    *(location) = getLastPressedSC();
-}
-
 void sys_read(uint64_t fileDescriptor, char * location, uint64_t length){
     if(fileDescriptor != STDIN) { 
         return -1;
@@ -110,7 +103,7 @@ void sys_time(){
     putString(itoa(get_seconds(),10));
 }
 
-void saveRegisters(){
+void sys_saveRegisters(){
     registers = registerSnapshot();
 }
 

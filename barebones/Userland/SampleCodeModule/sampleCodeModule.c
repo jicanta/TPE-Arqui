@@ -10,7 +10,7 @@ void addCharToBuffer(char c){
 }
 
 int main() {
-	printF("hola chicos");
+	printF("hola chicos\n");
 	/*while (1) {
 		char c = getcharF();
 		if (c != 0) {
