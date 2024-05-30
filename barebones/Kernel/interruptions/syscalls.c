@@ -48,7 +48,7 @@ uint64_t syscallHandler(uint64_t id){
             sys_time();
             break;
         case 4:
-            sys_saveRegisters();
+            printRegisters();
             break;
         case 5:
             cleanScreen();
@@ -91,10 +91,14 @@ void sys_time(){
     putString(itoa(get_seconds(),10));
 }
 
-void sys_saveRegisters(){
+void saveRegisters(){
     registers = registerSnapshot();
 }
 
-uint64_t * getLastSavedRegisters(){
-    return registers;
+void printRegisters(){
+    newLine();
+    for (int i = 0; i < 17 ; i++){
+        putString(itoa(registers[i],10));
+        newLine();
+    }
 }

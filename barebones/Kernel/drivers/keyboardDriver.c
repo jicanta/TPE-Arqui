@@ -26,7 +26,7 @@ uint32_t lastPressedSC;
 void saveLastPressed() {
     uint32_t scanCode = inb0x60();
     if (ISSHIFT(scanCode)) {
-        sys_saveRegisters();        // TODO: no tiene que llamar a la syscall, sino a la funcion registerSnapshot() que los guarda (pues la syscall los imprime directamente)
+        saveRegisters();
     }
     lastPressedSC = scanCode;
 }

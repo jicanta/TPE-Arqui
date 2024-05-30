@@ -12,6 +12,8 @@ extern void exception00_asm();
 
 extern void sys_clean_front_asm();
 
+extern void sys_registers_front_asm();
+
 typedef struct {
     void (* fn)();
     char * name;
@@ -55,12 +57,7 @@ void time() {
 
 void getregisters() {
     printF('\n');
-    uint64_t * registers = getLastSavedRegisters();
-    printF('\n');
-     for (int i = 0; i < 17 ; i++){
-        putString(itoa(registers[i],10));
-        newLine();
-    }
+    sys_registers_front_asm();
 }
 
 void zoomin() {
