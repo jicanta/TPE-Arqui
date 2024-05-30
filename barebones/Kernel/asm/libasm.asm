@@ -44,7 +44,7 @@ outPIT:
        mov rbp, rsp
        
        mov rax, rsi
-       mov rdx, rsi
+       mov rdx, rdi
        out dx, al
        
        mov rsp, rbp

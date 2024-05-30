@@ -22,14 +22,17 @@ extern void sys_time_asm();
 extern void sys_registers_asm();
 extern void _sti();
 extern void _cli();
+extern void sys_getkeypressed_asm();
+extern void sys_fillrect_asm();
+extern void sys_write_at_asm();
+
 
 // TODO: check if any other syscalls must be created
 
 void sys_read(uint64_t fileDescriptor, char * location, uint64_t length);
 void sys_write(uint64_t fileDescriptor, const char * string);
-void sys_time();
-void sys_peekRegisters();
 
+;
 // function to process which syscall is being asked for and call the function
 uint64_t syscallHandler(uint64_t id){
     if (id < 0 || id > SCALLSDIM){     
@@ -48,10 +51,19 @@ uint64_t syscallHandler(uint64_t id){
             sys_time();
             break;
         case 4:
-            sys_saveRegisters();
+            sys_printRegisters();
             break;
         case 5:
             cleanScreen();
+            break;
+        case 6:
+            sys_getkeypressed_asm();
+            break;
+        case 7:
+            sys_fillrect_asm();
+            break;
+        case 8:
+            sys_write_at_asm();
             break;
         default:
             break;
@@ -95,6 +107,28 @@ void sys_saveRegisters(){
     registers = registerSnapshot();
 }
 
-uint64_t * getLastSavedRegisters(){
-    return registers;
+void sys_printRegisters(){
+    newLine();
+    for (int i = 0; i < 17 ; i++){
+        putString(itoa(registers[i],10));
+        newLine();
+    }
+}
+
+void sys_getkeypressed(uint64_t fileDescriptor, char * location){
+    if(fileDescriptor != STDIN) { 
+        return -1;
+    }
+    *(location) = getLastPressedSC();
+}
+
+void sys_fillrect(uint64_t x, uint64_t y){
+    // drawColoredRectangle();
+}
+
+void sys_write_at(uint64_t fileDescriptor, const char * string, uint64_t x, uint64_t y){
+    if(fileDescriptor != STDOUT) {
+        return -1;
+    }
+    //putStringAt(string,x,y);    TODO: nose como hacerlo bien
 }

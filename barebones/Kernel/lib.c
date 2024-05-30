@@ -1,6 +1,4 @@
 #include <stdint.h>
-#include <lib.h>
-#include <videoDriver.h>
 
 void * memset(void * destination, int32_t c, uint64_t length)
 {
@@ -13,7 +11,8 @@ void * memset(void * destination, int32_t c, uint64_t length)
 	return destination;
 }
 
-void * memcpy(void * destination, const void * source, uint64_t length) {
+void * memcpy(void * destination, const void * source, uint64_t length)
+{
 	/*
 	* memcpy does not support overlapping buffers, so always do it
 	* forwards. (Don't change this without adjusting memmove.)

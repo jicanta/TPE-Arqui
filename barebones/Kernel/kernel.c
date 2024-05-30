@@ -1,12 +1,8 @@
 #include <stdint.h>
-#include <string.h>
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
-// TODO: borrar
-#include <videoDriver.h>
-#include <interrupts.h>
-#include <soundDriver.h>
+
 extern void _hlt();
 extern void load_idt();
 
@@ -57,4 +53,3 @@ int main() {
 	}
 	return 0;
 }
-

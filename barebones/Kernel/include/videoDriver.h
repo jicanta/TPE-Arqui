@@ -21,5 +21,6 @@ void resetCurrentPosX(int newPosX);
 void incCurrentPosY(int decrease);
 void resetCurrentPosY(int newPosY);
 void cleanScreen();
-
+void drawColoredRectangle(uint32_t hexColor, uint32_t x, uint32_t y, uint32_t width, uint32_t height);
+void drawColoredCircle(uint32_t hexColor, uint32_t x1, uint32_t y1, uint32_t radius);
 #endif
