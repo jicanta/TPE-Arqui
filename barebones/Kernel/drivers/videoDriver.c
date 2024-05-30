@@ -261,6 +261,22 @@ void putString(char * str){
     incCurrentPosX((i-1) * getWidth());
 }
 
+void drawColoredRectangle(uint32_t hexColor, uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
+    for(int i=0; i<height; i++) {
+        for(int j=0; j<width; j++) {
+            putPixel(hexColor, x+j, y+i);
+        }
+    }
+}
+
+void drawColoredCircle(uint32_t hexColor, uint32_t x1, uint32_t y1, uint32_t radius) {
+    int r = (int)radius;
+    for(int y=-r; y<=r; y++)
+        for(int x=-r; x<=r; x++)
+            if(x*x+y*y <= r*r)
+                putPixel(hexColor, x1+x, y1+y);
+}
+
 // TODO: JOSE VOS QUE HICISTE ESTO, ACA DEBERIAMOS ACTUALIZAR TMB EL STARTY?
 // EN QUE CAMBIA NEWLine y newlineC?
 

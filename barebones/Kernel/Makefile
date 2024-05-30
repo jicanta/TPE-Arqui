@@ -5,8 +5,6 @@ SOURCES=$(wildcard *.c) $(wildcard drivers/*.c) $(wildcard interruptions/*.c)
 SOURCES_ASM=$(wildcard asm/*.asm)
 OBJECTS=$(SOURCES:.c=.o)
 OBJECTS_ASM=$(SOURCES_ASM:.asm=.o)
-SOURCES_ASM_BACK==$(wildcard backAsm/*.asm)   #TODO:
-OBJECTS_ASM_BACK=$(SOURCES_ASM_BACK:.asm=.o)  #TODO: 
 LOADERSRC=loader.asm
 
 LOADEROBJECT=$(LOADERSRC:.asm=.o)

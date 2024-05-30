@@ -26,7 +26,7 @@ uint32_t lastPressedSC;
 void saveLastPressed() {
     uint32_t scanCode = inb0x60();
     if (ISSHIFT(scanCode)) {
-        saveRegisters();
+        sys_saveRegisters();
     }
     lastPressedSC = scanCode;
 }

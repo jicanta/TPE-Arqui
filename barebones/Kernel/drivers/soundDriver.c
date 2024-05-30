@@ -1,8 +1,7 @@
 #include <soundDriver.h>
 
-void outPIT(int register, int val);
-uint8_t inPIT(int register);
-
+extern void outPIT(int register, uint8_t val);
+extern uint8_t inPIT(int register);
 
 void playSound(uint32_t nFrequence) {
     uint32_t Div;
