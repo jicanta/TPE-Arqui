@@ -57,8 +57,11 @@ void sys_read(uint64_t fileDescriptor, char * location, uint64_t length) {
     if(fileDescriptor != STDIN) { 
         return -1;
     }
-    char c;
-    for (int i = 0; i < length && (c = getLastAscii()) != '\0'; i++) {
+    for (int i = 0; i < length; i++) {
+        char c = 0; 
+        while (c == '\0'){
+            c = getLastAscii();
+        }
         location[i] = c;
     }
 }

@@ -3,6 +3,7 @@
 #include <moduleLoader.h>
 #include <naiveConsole.h>
 #include <videoDriver.h> // sacarlo
+#include <syscalls.h>
 
 extern void _hlt();
 extern void load_idt();
@@ -76,11 +77,13 @@ int main() {
 	//newLineC();
 	//putString("hola");
 	newLineC();
-	//putStringColor("chau", 0xFF0000);
-	//putStringColorAt("hellooo", 0x00FF00, 500, 500);
-	((EntryPoint)sampleCodeModuleAddress)();
+	//((EntryPoint)sampleCodeModuleAddress)();
 	while(1) {
-		
+		char c[1]={0};
+		do {
+			sys_read(0, c, 1); 
+		} while (c =='\0');
+		putChar(*c);
 	}
 	return 0;
 }
