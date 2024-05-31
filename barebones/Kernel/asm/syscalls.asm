@@ -103,7 +103,23 @@ sys_write_at_asm:
         ret
 
 sys_write_color_asm:
+		pushState
+        mov rdi, rsi
+        mov rsi, rdx
+        mov rdx, rcx
+        call sys_write_color
+        popState
+        ret
 
 sys_write_color_at_asm:
+		pushState
+		mov rdi, rsi
+        mov rsi, rdx
+        mov rdx, rcx
+		mov rcx, r8
+		mov r8, r9
+        call sys_write_color_at
+        popState
+        ret
 
 sys_sleep_asm:

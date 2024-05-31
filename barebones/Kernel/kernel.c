@@ -73,11 +73,11 @@ int main() {
 	beep(349);
 	beep(392);
 	beep(349);*/
+	//newLineC();
+	//putString("hola");
 	newLineC();
-	putString("hola");
-	newLineC();
-	putStringColor("chau", 0xFF0000);
-	putStringColorAt("hellooo", 0x00FF00, 500, 500);
+	//putStringColor("chau", 0xFF0000);
+	//putStringColorAt("hellooo", 0x00FF00, 500, 500);
 	((EntryPoint)sampleCodeModuleAddress)();
 	while(1) {
 		

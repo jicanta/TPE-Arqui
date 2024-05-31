@@ -119,7 +119,27 @@ sys_write_at_front_asm:
         ret
 
 sys_write_color_front_asm:
+        pushState
+        mov rcx, rdx
+        mov rdx, rsi
+        mov rsi, rdi
+        mov rdi, 9
+        int 80h
+        popState
+        ret
+
 sys_write_color_at_front_asm:
+        pushState
+        mov r9, r8
+        mov r8, rcx
+        mov rcx, rdx
+        mov rdx, rsi
+        mov rsi, rdi
+        mov rdi, 10
+        int 80h
+        popState
+        ret
+
 sys_sleep_front_asm:
 
 exception00_asm:
