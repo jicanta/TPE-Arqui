@@ -2,6 +2,7 @@
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
+#include <videoDriver.h> // sacarlo
 
 extern void _hlt();
 extern void load_idt();
@@ -45,10 +46,9 @@ void * initializeKernelBinary()
 }
 
 
-
 int main() {
 	load_idt();
-	beep(261);
+	/*beep(261);
 	beep(261);
 	beep(293);
 	beep(261);
@@ -72,10 +72,15 @@ int main() {
 	beep(440);
 	beep(349);
 	beep(392);
-	beep(349);
+	beep(349);*/
+	newLineC();
+	putString("hola");
+	newLineC();
+	putStringColor("chau", 0xFF0000);
+	putStringColorAt("hellooo", 0x00FF00, 500, 500);
 	((EntryPoint)sampleCodeModuleAddress)();
 	while(1) {
-		_hlt();
+		
 	}
 	return 0;
 }

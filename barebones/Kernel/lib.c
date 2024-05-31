@@ -64,3 +64,9 @@ char * itoa(int val, int base) {
     }
     return &buf[i+1];
 }
+
+int strlength(const char* s) {
+    int i = 0;
+    while (*(s+(i++)) != '\0') {}
+    return i - 1;	
+}

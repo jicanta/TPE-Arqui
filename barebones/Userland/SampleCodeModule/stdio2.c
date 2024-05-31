@@ -6,9 +6,6 @@
 
 #define DEFAULT_STR_LEN     20
 
-void sys_read_front_asm(uint64_t fd, char * loc, uint64_t length);
-void sys_write_front_asm(uint64_t fd, char * str);
-
 char * itoa(int val, int base) {
     if (val < 10) {
 	    static char s[3];
@@ -45,6 +42,30 @@ void putcharF(char c) {
 
 void printF(char * string) {
     sys_write_front_asm(STDOUT, string);
+}
+
+void putcharatF(char c, uint64_t x, uint64_t y){
+    sys_write_at_front_asm(STDOUT, c, x, y);
+}
+
+void putstringatF(const char * str, uint64_t x, uint64_t y) {
+    sys_write_at_front_asm(STDOUT, str, x, y);
+}
+
+void putcharcolorF(char c, uint32_t color){
+    sys_write_color_front_asm(STDOUT, c, color);
+}
+
+void putstringcolorF(const char * str, uint32_t color){
+    sys_write_color_front_asm(STDOUT, str, color);
+}   
+
+void putcharcoloratF(char c, uint32_t color, uint64_t x, uint64_t y){
+    sys_write_color_at_front_asm(STDOUT, c, color, x, y);
+}
+
+void putstringcoloratF(const char * str, uint32_t color, uint64_t x, uint64_t y){
+     sys_write_color_at_front_asm(STDOUT, str, color, x, y);
 }
 
 char getcharF() {

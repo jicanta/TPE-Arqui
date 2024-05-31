@@ -6,6 +6,9 @@ GLOBAL sys_clean_front_asm
 GLOBAL sys_getkeypressed_front_asm
 GLOBAL sys_fillrect_front_asm
 GLOBAL sys_write_at_front_asm
+GLOBAL sys_write_color_front_asm
+GLOBAL sys_write_color_at_front_asm
+GLOBAL sys_sleep_front_asm
 GLOBAL exception00_asm
 GLOBAL exception06_asm
 section .text
@@ -105,8 +108,8 @@ sys_fillrect_front_asm:
         ret
 
 sys_write_at_front_asm:
-		pushState
-		mov r8, rcx
+	pushState
+	mov r8, rcx
         mov rcx, rdx
         mov rdx, rsi
         mov rsi, rdi
@@ -114,6 +117,10 @@ sys_write_at_front_asm:
         int 80h
         popState
         ret
+
+sys_write_color_front_asm:
+sys_write_color_at_front_asm:
+sys_sleep_front_asm:
 
 exception00_asm:
         pushState

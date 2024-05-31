@@ -2,7 +2,7 @@
 #include <strings2.h>
 #include <stdint.h>
 
-#define COMMDIM  8      // TODO: no me gusta el magic number me gustaria mas un size of
+#define COMMDIM  9      // TODO: no me gusta el magic number me gustaria mas un size of
 #define REGS     18
 
 extern void sys_time_front_asm();
@@ -25,21 +25,23 @@ void help(){        // TODO: ver si la cambiamos o dejamos esto
     printF("\n");
     printF("The following are valid commands:");
     printF("\n");
-    printF("    help            -- displays information on current shell.");
+    printF("    help         -- displays information on current shell.");
     printF("\n");
-    printF("    divzero        -- simulates a division by zero exception.");
+    printF("    divzero      -- simulates a division by zero exception.");
     printF("\n");
-    printF("    invopcode      -- simulates an invalid op code exception.");
+    printF("    invopcode    -- simulates an invalid op code exception.");
     printF("\n");
-    printF("    time            -- displays current time.");
+    printF("    time         -- displays current time.");
     printF("\n");
-    printF("    registers       -- last saved register info (press shift to save at any given time).");
+    printF("    registers    -- last saved register info (press shift to save at any given time).");
     printF("\n");
-    printF("    zoomin         -- augments letter size. WARNING: this command clears the whole screen.");
+    printF("    zoomin       -- augments letter size. WARNING: this command clears the screen.");
     printF("\n");
-    printF("    zoomout        -- diminishes letter size. WARNING: this command clears the whole screen");
+    printF("    zoomout      -- diminishes letter size. WARNING: this command clears the screen.");
     printF("\n");
     printF("    clear        -- clears the whole screen.");
+    printF("\n");
+    printF("    fonts        -- displays available fonts.");
 }
 
 void divzero() {
@@ -72,12 +74,19 @@ void zoomout() {
     return ;
 }
 
-void clear(){
+void clear() {
     sys_clean_front_asm();
     return;
 }
 
-comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoomin"}, {zoomout, "zoomout"}, {clear, "clear"}};
+void fonts(){
+    printF("\n");
+    printF("type any to select. WARNING: activating any font clears the whole screen.");
+    printF("\n");
+    // TODO: printear todos los fonts disponibles con el font directamente asi se ve como se ve
+}
+
+comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoomin"}, {zoomout, "zoomout"}, {clear, "clear"}, {fonts, "fonts"}};
 
 void interpretCommand(char * buffer){
     int i = 0;
