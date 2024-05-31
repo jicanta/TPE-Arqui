@@ -71,10 +71,10 @@ sys_write_front_asm:
         ret
 
 sys_read_front_asm:
-        ;pushState
+        pushState
         mov r9, 1
         int 80h
-        ;popState
+        popState
         ret
 
 sys_clean_front_asm:

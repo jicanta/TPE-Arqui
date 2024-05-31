@@ -40,18 +40,18 @@ uint64_t syscallHandler(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, 
             cleanScreen();
             break;
         case 6:
-            sys_getkeypressed_asm();
+            sys_getkeypressed(rdi, rsi);
             break;
         case 7:
-            sys_fillrect_asm();
+            sys_fillrect(rdi, rsi);
             break;
         case 8:
-            sys_write_at_asm();
+            sys_write_at(rdi, rsi, rdx, rcx);
             break;
         case 9:
-            sys_write_color_asm();
+            sys_write_color(rdi, rsi, rdx);
         case 10:
-            sys_write_color_at_asm();
+            sys_write_color_at(rdi, rsi, rdx, rcx, r8);
         case 11:
             sys_sleep_asm();
         default:
