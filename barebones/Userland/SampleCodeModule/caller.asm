@@ -83,14 +83,14 @@ sys_read_front_asm:
         ret
 
 sys_clean_front_asm:
-		pushState
-		mov rdi, 5
-		int 80h
-		popState
-		ret
+	pushState
+	mov rdi, 5
+	int 80h
+	popState
+	ret
 
 sys_getkeypressed_front_asm:
-		pushState
+	pushState
         mov rdx, rsi
         mov rsi, rdi
         mov rdi, 6
@@ -99,7 +99,7 @@ sys_getkeypressed_front_asm:
         ret
 
 sys_fillrect_front_asm:
-		pushState
+	pushState
         mov rdx, rsi
         mov rsi, rdi
         mov rdi, 7

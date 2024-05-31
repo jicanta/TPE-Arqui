@@ -13,10 +13,8 @@ void addCharToBuffer(char c){
 }
 
 int main() {
-	printF("FELIZ CUMPLEAÑOS CHICOS");
-	printF("FELIZ CUMPLEAÑOS CHICOS");
-	/*while (1) {
+	while (1) {
 		char c = getcharF();
 		putcharF(c);
-	}*/
+	}
 }

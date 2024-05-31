@@ -69,9 +69,9 @@ void putstringcoloratF(const char * str, uint32_t color, uint64_t x, uint64_t y)
 }
 
 char getcharF() {
-    char * c;
+    char c[1];
     sys_read_front_asm(STDIN, c, 1);
-    return c;
+    return *c;
 }
 char * scanF() {
     char str[DEFAULT_STR_LEN];
