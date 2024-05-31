@@ -21,6 +21,7 @@ EXTERN sys_write_color
 EXTERN sys_write_color_at
 EXTERN sys_sleep
 
+
 section .text
 
 %macro pushState 0
@@ -66,7 +67,7 @@ sys_read_asm:    ; en rdi:id, rsi:fd, rdx:buff, rcx: size
         mov rdx, rcx
         call sys_read
         popState
-        ret
+        iretq
 
 sys_write_asm:    ; en rdi:id, rsi:fd, rdx:buff, rcx: size 
         pushState
@@ -74,7 +75,7 @@ sys_write_asm:    ; en rdi:id, rsi:fd, rdx:buff, rcx: size
         mov rsi, rdx
         call sys_write
         popState
-        ret
+        iretq
 
 sys_getkeypressed_asm:
 		pushState
@@ -82,7 +83,7 @@ sys_getkeypressed_asm:
         mov rsi, rdx
         call sys_getkeypressed
         popState
-        ret
+        iretq
 		
 sys_fillrect_asm:
 	pushState
@@ -90,7 +91,7 @@ sys_fillrect_asm:
 	mov rsi, rdx
     call sys_fillrect
     popState
-    ret
+    iretq
 
 sys_write_at_asm:
 		pushState
@@ -100,7 +101,7 @@ sys_write_at_asm:
 		mov rcx, r8
         call sys_write_at
         popState
-        ret
+        iretq
 
 sys_write_color_asm:
 		pushState
@@ -109,7 +110,7 @@ sys_write_color_asm:
         mov rdx, rcx
         call sys_write_color
         popState
-        ret
+        iretq
 
 sys_write_color_at_asm:
 		pushState
@@ -120,6 +121,6 @@ sys_write_color_at_asm:
 		mov r8, r9
         call sys_write_color_at
         popState
-        ret
+        iretq
 
 sys_sleep_asm:

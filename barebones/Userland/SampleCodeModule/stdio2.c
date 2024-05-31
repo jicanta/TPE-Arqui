@@ -6,6 +6,8 @@
 
 #define DEFAULT_STR_LEN     20
 
+sys_read_front_asm(uint64_t fileDescriptor, char * location, uint64_t length);
+
 char * itoa(int val, int base) {
     if (val < 10) {
 	    static char s[3];
@@ -71,9 +73,9 @@ void putstringcoloratF(const char * str, uint32_t color, uint64_t x, uint64_t y)
 char getcharF() {
     char c[1];
     sys_read_front_asm(STDIN, c, 1);
-    return *c;
+    return c[0];
 }
-char * scanF() {
+char * scan2F() {
     char str[DEFAULT_STR_LEN];
     sys_read_front_asm(STDIN, str, DEFAULT_STR_LEN);
     return str;

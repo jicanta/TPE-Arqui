@@ -73,17 +73,11 @@ int main() {
 	beep(440);
 	beep(349);
 	beep(392);
-	beep(349);*/
-	//newLineC();
-	//putString("hola");
+	beep(349); */
 	newLineC();
-	//((EntryPoint)sampleCodeModuleAddress)();
+	((EntryPoint)sampleCodeModuleAddress)();
 	while(1) {
-		char c[1]={0};
-		do {
-			sys_read(0, c, 1); 
-		} while (c =='\0');
-		putChar(*c);
+		_hlt();
 	}
 	return 0;
 }

@@ -13,8 +13,5 @@ void addCharToBuffer(char c){
 }
 
 int main() {
-	while (1) {
-		char c = getcharF();
-		putcharF(c);
-	}
+	printF("holaaaaa");
 }

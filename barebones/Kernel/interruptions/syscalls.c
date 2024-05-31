@@ -12,16 +12,19 @@ static uint64_t *registers;
 
 // function to process which syscall is being asked for and call the function
 uint64_t syscallHandler(uint64_t id){
+    putChar(itoa(id, 10));
     if (id < 0 || id > SCALLSDIM){     
         return -1;      // syscall does not exist
     }
     switch (id) {
-        case 1:  
-            _sti();
+        case 1:
+            _sti();  
             sys_read_asm();
             _cli();
             break;
         case 2:
+            putString("write");
+            putChar("w");
             sys_write_asm();
             break;
         case 3:
@@ -54,11 +57,12 @@ uint64_t syscallHandler(uint64_t id){
 }
 
 void sys_read(uint64_t fileDescriptor, char * location, uint64_t length) {
+    putString("hola");
     if(fileDescriptor != STDIN) { 
         return -1;
     }
     for (int i = 0; i < length; i++) {
-        char c = 0; 
+        char c = '\0'; 
         while (c == '\0'){
             c = getLastAscii();
         }
