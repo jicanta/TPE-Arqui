@@ -46,5 +46,6 @@ uint32_t getLastPressedSC() {
 // TODO: esta es la funcion a la que llama la interrupcion del teclado
 void processBuffer(){
     saveLastPressed();       // start reading
+    putChar(getLastAscii());
     return ;
 }

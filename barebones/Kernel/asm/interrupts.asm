@@ -157,9 +157,14 @@ exception06:
 	iretq
 
 sys_call:
-	pushState
+	;pushState
 	call syscallHandler
-	popState
+
+	; signal pic EOI (End of Interrupt)
+	mov al, 20h
+	out 20h, al
+
+	;popState
 	iretq
 
 haltcpu:

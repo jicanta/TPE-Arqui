@@ -11,7 +11,18 @@ void addCharToBuffer(char c){
 	}
 	buffer[buffersize++] = c;
 }
+char c;
 
 int main() {
-	printF("holaaaaa");
+	//putcharF('a');
+	/*printF("LA RE COMCHA DE TU HERMANA TP DE MIERDAAAA ");
+	putcharF('a');
+	c = getcharF();
+	putcharF(c);*/
+	while(1){
+		putcharF('a');
+		c = getcharF();
+		putcharF('b');
+		putcharF(c);
+	}
 }

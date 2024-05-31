@@ -51,91 +51,70 @@ section .text
 
 sys_time_front_asm:
         pushState
-        mov rdi, 3
+        mov r9, 3
         int 80h
         popState
         ret
 
 sys_registers_front_asm:
         pushState
-        mov rdi, 4
+        mov r9, 4
         int 80h
         popState
         ret
 
 sys_write_front_asm:
         pushState
-        mov rdx, rsi
-        mov rsi, rdi
-        mov rdi, 2
+        mov r9, 2
         int 80h
         popState
         ret
 
 sys_read_front_asm:
-        pushState
-        mov rcx, rdx
-        mov rdx, rsi
-        mov rsi, rdi
-        mov rdi, 1
+        ;pushState
+        mov r9, 1
         int 80h
-        popState
+        ;popState
         ret
 
 sys_clean_front_asm:
 	pushState
-	mov rdi, 5
+	mov r9, 5
 	int 80h
 	popState
 	ret
 
 sys_getkeypressed_front_asm:
 	pushState
-        mov rdx, rsi
-        mov rsi, rdi
-        mov rdi, 6
+        mov r9, 6
         int 80h
         popState
         ret
 
 sys_fillrect_front_asm:
 	pushState
-        mov rdx, rsi
-        mov rsi, rdi
-        mov rdi, 7
+        mov r9, 7
         int 80h
         popState
         ret
 
 sys_write_at_front_asm:
 	pushState
-	mov r8, rcx
-        mov rcx, rdx
-        mov rdx, rsi
-        mov rsi, rdi
-        mov rdi, 8
+        mov r9, 8
         int 80h
         popState
         ret
 
 sys_write_color_front_asm:
         pushState
-        mov rcx, rdx
-        mov rdx, rsi
-        mov rsi, rdi
-        mov rdi, 9
+        mov r9, 9
         int 80h
         popState
         ret
 
 sys_write_color_at_front_asm:
         pushState
-        mov r9, r8
-        mov r8, rcx
-        mov rcx, rdx
-        mov rdx, rsi
-        mov rsi, rdi
-        mov rdi, 10
+        mov r9, 10
         int 80h
         popState
         ret
