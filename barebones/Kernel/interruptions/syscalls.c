@@ -12,10 +12,7 @@ static uint64_t *registers;
 
 // function to process which syscall is being asked for and call the function
 uint64_t syscallHandler(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9){
-    putChar('z');
-    
     if (r9 < 0 || r9 > SCALLSDIM){     
-        putChar('Q');
         return -1;      // syscall does not exist
     }
     switch (r9) {
@@ -23,11 +20,8 @@ uint64_t syscallHandler(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, 
         case 1:
             _sti();  
             sys_read(rdi, rsi, rdx);
-            _cli();
             break;
         case 2:
-            //putString("write");
-            //putChar("w");
             sys_write(rdi, rsi);
             break;
         case 3:
@@ -60,17 +54,12 @@ uint64_t syscallHandler(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, 
 }
 
 void sys_read(uint64_t fileDescriptor, char * location, uint64_t length) {
-    putString("hola");
     if(fileDescriptor != STDIN) { 
-        return -1;
+        return;
     }
+    char c;
     for (int i = 0; i < length; i++) {
-        putChar(itoa(length,10));
-        putChar('k');
-        char c = '\0'; 
-        while (c == '\0'){
-            c = getLastAscii();
-        }
+        c = getLastAscii();
         location[i] = c;
     }
 }
@@ -83,18 +72,8 @@ void sys_write(uint64_t fileDescriptor, const char * string) {
 }
 
 void sys_time() {
-    putString("year:");
-    putString(itoa(get_year(),10));
-    putString("month:");
-    putString(itoa(get_month(),10));
-    putString("day:");
-    putString(itoa(get_day(),10));
-    putString("hour:");
-    putString(itoa(get_hours() - 3,10));
-    putString("minutes:");
-    putString(itoa(get_minutes(),10));
-    putString("seconds:");
-    putString(itoa(get_seconds(),10));
+    putString(itoa(get_hours() - 3,10));putString('h :');putString(itoa(get_minutes(),10));putString('min :');putString(itoa(get_seconds(),10));putString("s\n");
+    putString(itoa(get_day(), 10));putChar('/');putString(itoa(get_month(),10));putChar('/');putString(itoa(get_year(),10));
 }
 
 void sys_saveRegisters() {

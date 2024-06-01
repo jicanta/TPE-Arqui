@@ -11,20 +11,22 @@
 #define KEY_ASCII(scanCode) ((scanCode) & MASK)
 
 uint8_t lowerCaseMap[] = {
-      '\0', '\0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '\b', 
-      '\0', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\0',
-      '\0', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';','\'', '`', '\0',
-      '\0', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '\0',
-      '\0', '\0', ' ', '\0 ', '\0', '\0', '\0',  '\0', '\0', '\0', '\0'
+      '\0', '\0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '\b', '\0' /*'\t*/,
+       'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\n', '\0',
+       'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';','\'', '`', '\0', '\\',
+       'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '\0', '*', '\0', ' ', '\0'
 };
 
 extern void sys_peekRegisters();
 extern uint32_t inb0x60();
 
-uint32_t lastPressedSC = 55;
+uint32_t lastPressedSC = 0;
 
 void saveLastPressed() {
     uint32_t scanCode = inb0x60();
+    if (scanCode > 0x80){
+        return;
+    }
     if (ISSHIFT(scanCode)) {
         sys_saveRegisters();
     }
@@ -32,20 +34,19 @@ void saveLastPressed() {
 }
 
 char getLastAscii(){
-    uint32_t sc = getLastPressedSC();
-    return lowerCaseMap[sc];
+    while (lowerCaseMap[getLastPressedSC()] == '\0'){
+        // it does not return an ascii until some significant key is pressed
+    }
+    char ascii = lowerCaseMap[lastPressedSC];
+    lastPressedSC = 0;
+    return ascii;
 }
 
-// TODO: esta es la funcion a la que llama la sys call read
 uint32_t getLastPressedSC() {
-    uint32_t aux = lastPressedSC;
-    lastPressedSC = 55;
-    return aux;
+    return lastPressedSC;
 }
 
-// TODO: esta es la funcion a la que llama la interrupcion del teclado
 void processBuffer(){
     saveLastPressed();       // start reading
-    putChar(getLastAscii());
     return ;
 }

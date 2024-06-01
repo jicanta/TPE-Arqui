@@ -12,8 +12,6 @@ extern void sys_clean_front_asm();
 extern void exception06_asm();
 extern void exception00_asm();
 
-
-
 extern void sys_registers_front_asm();
 
 typedef struct {
@@ -42,11 +40,13 @@ void help(){        // TODO: ver si la cambiamos o dejamos esto
     printF("    clear        -- clears the whole screen.");
     printF("\n");
     printF("    fonts        -- displays available fonts.");
+    return;
 }
 
 void divzero() {
     printF("\n");
     exception00_asm();
+    return;
 }
 
 void invopcode() {
@@ -55,12 +55,11 @@ void invopcode() {
 }
 
 void time() {
-    printF("\n");
     sys_time_front_asm();
 }
 
 void getregisters() {
-    printF('\n');
+    printF("\n");
     sys_registers_front_asm();
 }
 
@@ -94,11 +93,12 @@ void interpretCommand(char * buffer){
         if (strcmp(buffer, commands[i].name) == 0){
             commands[i].fn();
             printF("\n");
+            putstringcolorF("$ ", (uint32_t)0x00FF00);
             return;
         }
         i++;
     }
-    printF("\n");
     printF("buffer : command not found");
-    printF("\n");
+    putcharF('\n');
+    putstringcolorF("$ ", (uint32_t)0x00FF00);
 }

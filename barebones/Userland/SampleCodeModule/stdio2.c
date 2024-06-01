@@ -37,9 +37,7 @@ char * numToStr(int num) {
 }
 
 void putcharF(char c) {
-    char * aux;
-    *aux = c;
-    sys_write_front_asm(STDOUT, aux);
+    sys_write_front_asm(STDOUT, &c);
 }
 
 void printF(char * string) {
@@ -70,10 +68,10 @@ void putstringcoloratF(const char * str, uint32_t color, uint64_t x, uint64_t y)
      sys_write_color_at_front_asm(STDOUT, str, color, x, y);
 }
 
+char c[1];
 char getcharF() {
-    char c[1];
-    sys_read_front_asm(STDIN, c, 1);
-    return c[0];
+    sys_read_front_asm(0, c, 1);
+    return (*(c));
 }
 char * scan2F() {
     char str[DEFAULT_STR_LEN];

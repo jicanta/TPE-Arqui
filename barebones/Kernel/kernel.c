@@ -74,7 +74,6 @@ int main() {
 	beep(349);
 	beep(392);
 	beep(349); */
-	newLineC();
 	((EntryPoint)sampleCodeModuleAddress)();
 	while(1) {
 		_hlt();

@@ -60,6 +60,9 @@ section .text
 	pop rax
 %endmacro
 
+
+; AVISO: ninguna de estas funciones son utilizadas porque cambiamos la implementacion de sysCallHandler 
+; al intentar encontrar el error 
 sys_read_asm:    ; en rdi:id, rsi:fd, rdx:buff, rcx: size
         pushState
         mov rdi, rsi
