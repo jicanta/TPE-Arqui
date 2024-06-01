@@ -6,7 +6,9 @@
 
 #define DEFAULT_STR_LEN     20
 
-sys_read_front_asm(uint64_t fileDescriptor, char * location, uint64_t length);
+void sys_read_front_asm(uint64_t fileDescriptor, char * location, uint64_t length);
+void sys_write_color_front_asm(uint64_t fileDescriptor, const char * string, uint32_t color);
+void sys_write_color_at_front_asm(uint64_t fileDescriptor, const char * string, uint32_t color, uint64_t x, uint64_t y);
 void sys_zoomin();
 void sys_zoomout();
 

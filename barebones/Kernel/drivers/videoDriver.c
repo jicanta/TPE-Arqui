@@ -209,7 +209,7 @@ void draw_char(char c, uint32_t color, uint64_t x, uint64_t y) {
     for (int row = 0; row < getHeight(); row+=currscale) {
         uint8_t bitmap_row = font_data[(uint8_t)c][row/currscale];
         for (int col = 0; col < getWidth(); col+=currscale) {
-            if (bitmap_row & (1 << (7 - col/currscale)) || c == ' ') {
+            if (bitmap_row & (1 << (7 - (col/currscale))) || c == ' ') {
                 for (int i=0; i < currscale; i++){
                     for (int j=0; j < currscale; j++){
                         putPixel((c != ' ' ? color : 0x000000), x + col + i, y + row + j);
@@ -234,15 +234,15 @@ void putCharColor(char c, uint32_t color){
         incCurrentPosY(getHeight() + SPACING);
     }
     if (c == '\n'){
-        newLine();
+       newLine();
+       return;
     }
-    //else if (c == '\b'){
-    //    backSpace();
-    //}
-    else {
-        draw_char(c, color, currentPosX, currentPosY);
-        incCurrentPosX(getWidth() + SPACING);
+    if (c == '\b'){
+        backSpace();
+        return;
     }
+    draw_char(c, color, currentPosX, currentPosY);
+    incCurrentPosX(getWidth() + SPACING);
 }
 
 void putStringColor(const char * str, uint32_t color){
@@ -267,13 +267,13 @@ void putCharColorAt(char c, uint32_t color, uint64_t x, uint64_t y){
     }
     if (c == '\n'){
         newLine();
+        return;
     }
-    //else if (c == '\b'){
-    //    backSpace();
-    //}
-    else {
-        draw_char(c, color, x, y);
+    if (c == '\b'){
+        backSpace();
+        return;
     }
+    draw_char(c, color, x, y);
 }
 
 void putStringColorAt(const char * str, uint32_t color, uint64_t x, uint64_t y){
@@ -302,9 +302,9 @@ void drawColoredCircle(uint32_t hexColor, uint32_t x1, uint32_t y1, uint32_t rad
 }
 
 void backSpace(){
-    if (currentPosY == startY && currentPosX == 2 * (getWidth() + SPACING)) {
-        return;
-    }
+    //if (currentPosY == startY && currentPosX == 2 * (getWidth() + SPACING)) {
+    //    return;
+    //}
     incCurrentPosX(-getWidth() - SPACING);
     putChar(' ');
     if (currentPosX - getWidth() - SPACING <= 0) {
@@ -312,12 +312,12 @@ void backSpace(){
 	    resetCurrentPosX(VBE_mode_info->width - getWidth() + SPACING + 2);
 	    return;
     }
-    incCurrentPosX(-getWidth() - SPACING);
+    incCurrentPosX(getWidth() - SPACING);
 }
 
 void newLine(){
     resetCurrentPosX(0);
-    incCurrentPosY(getHeight());
+    incCurrentPosY(getHeight()/2);
     if (currentPosY >= VBE_mode_info->height){
         resetCurrentPosY(0);
         cleanScreen();
@@ -334,20 +334,22 @@ void cleanScreen() {
     resetCurrentPosY(0);
 }
 
-void incSize() {             // TODO: no funca todavia, nose si esta bien ni siquiera, mi idea era escalar el font
+void incSize() {
     if (currscale == MAX_SIZE){
+        putStringColorAt("Already at max size.", 0xFF0000, 0, currentPosY + getHeight() + SPACING);
         return;
     }
-    currscale += 1;
+    currscale++;
     currentWidth = DEFAULT_WIDTH * currscale;
     currentHeight = DEFAULT_HEIGHT * currscale;
 }
 
-void decSize(){             // TODO: idem
+void decSize(){             
     if (currscale == MIN_SIZE){
+        putStringColorAt("Already at min size.", 0xFF0000, 0, currentPosY + getHeight() + SPACING);
         return;
     }
-    currscale -= 1;
+    currscale--;
     currentWidth = DEFAULT_WIDTH * currscale;
     currentHeight = DEFAULT_HEIGHT * currscale;
 }

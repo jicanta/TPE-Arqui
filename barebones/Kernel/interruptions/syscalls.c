@@ -37,7 +37,7 @@ uint64_t syscallHandler(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, 
         case 7:
             sys_write_color_at(rdi, rsi, rdx, rcx, r8);
         case 8:
-            sys_sleep_asm();
+            sys_sleep(rdi);
         case 9:
             inzoom();
         case 10:
@@ -104,12 +104,12 @@ void sys_fillrect(uint64_t x, uint64_t y) {
     // drawColoredRectangle();
 }
 
-void sys_write_at(uint64_t fileDescriptor, const char * string, uint64_t x, uint64_t y) {
+/*void sys_write_at(uint64_t fileDescriptor, const char * string, uint64_t x, uint64_t y) {
     if(fileDescriptor != STDOUT) {
         return -1;
     }
     putStringAt(string, x, y);
-}
+}*/
 
 void sys_write_color(uint64_t fileDescriptor, const char * string, uint32_t color) {
     if(fileDescriptor != STDOUT) {
