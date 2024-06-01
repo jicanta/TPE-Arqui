@@ -308,7 +308,7 @@ void backSpace(){
     incCurrentPosX(-getWidth() - SPACING);
     putChar(' ');
     if (currentPosX - getWidth() - SPACING <= 0) {
-	    incCurrentPosY(-getHeight() - SPACING);
+	    incCurrentPosY(-getHeight());
 	    resetCurrentPosX(VBE_mode_info->width - getWidth() + SPACING + 2);
 	    return;
     }
@@ -317,7 +317,7 @@ void backSpace(){
 
 void newLine(){
     resetCurrentPosX(0);
-    incCurrentPosY(getHeight()/2);
+    incCurrentPosY(getHeight() + SPACING);
     if (currentPosY >= VBE_mode_info->height){
         resetCurrentPosY(0);
         cleanScreen();
