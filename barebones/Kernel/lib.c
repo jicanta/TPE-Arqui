@@ -70,3 +70,12 @@ int strlength(const char* s) {
     while (*(s+(i++)) != '\0') {}
     return i - 1;	
 }
+
+void toUpperCase(char * str){
+	while (*str) {
+		if (*str >= 'a' && *str <= 'z') {
+            *str = *str - ('a' - 'A');
+        }
+		str++;
+	}
+}

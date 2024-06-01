@@ -20,7 +20,6 @@ typedef struct {
 } comms;
 
 void help(){        // TODO: ver si la cambiamos o dejamos esto
-    printF("\n");
     printF("The following are valid commands:");
     printF("\n");
     printF("    help         -- displays information on current shell.");
@@ -40,17 +39,13 @@ void help(){        // TODO: ver si la cambiamos o dejamos esto
     printF("    clear        -- clears the whole screen.");
     printF("\n");
     printF("    fonts        -- displays available fonts.");
-    return;
 }
 
 void divzero() {
-    printF("\n");
     exception00_asm();
-    return;
 }
 
 void invopcode() {
-    printF("\n");
     exception06_asm();
 }
 
@@ -63,23 +58,21 @@ void getregisters() {
     sys_registers_front_asm();
 }
 
+void clear() {
+    sys_clean_front_asm();
+}
+
 void zoomin() {
-    printF("zoom");
-    return ;
+    biggerText();
+    clear();
 }
 
 void zoomout() {
-    printF("chau zoom");
-    return ;
-}
-
-void clear() {
-    sys_clean_front_asm();
-    return;
+    smallerText();
+    clear();
 }
 
 void fonts(){
-    printF("\n");
     printF("type any to select. WARNING: activating any font clears the whole screen.");
     printF("\n");
     // TODO: printear todos los fonts disponibles con el font directamente asi se ve como se ve
@@ -89,16 +82,13 @@ comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode
 
 void interpretCommand(char * buffer){
     int i = 0;
-    while (i < COMMDIM){
+    while (i < COMMDIM && *buffer) {
         if (strcmp(buffer, commands[i].name) == 0){
             commands[i].fn();
-            printF("\n");
-            putstringcolorF("$ ", (uint32_t)0x00FF00);
+            putcharF('\n');
             return;
         }
         i++;
     }
-    printF("buffer : command not found");
-    putcharF('\n');
-    putstringcolorF("$ ", (uint32_t)0x00FF00);
+    printF("buffer : command not found\n");
 }

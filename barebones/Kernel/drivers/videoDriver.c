@@ -1,16 +1,16 @@
 #include <videoDriver.h>
 #include <lib.h>
 
+#define SPACING     2
+#define MAX_SIZE    2
+#define MIN_SIZE    1
+
 int currentPosX = 0;
 int currentPosY = 0;
-int startY = 0;
+int startY = SPACING;
 int currentWidth = DEFAULT_WIDTH;
 int currentHeight = DEFAULT_HEIGHT;
-int currSize = 2;
-
-#define SPACING     2
-#define MAX_SIZE    4
-#define MIN_SIZE    1
+int currscale = 1;
 
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -189,7 +189,7 @@ uint8_t * getFramebuffer(){
     return (uint8_t * ) VBE_mode_info->framebuffer;
 }
 
-int getWidth(){     // TODO: modify for zoom and outzoon
+int getWidth(){
     return currentWidth;
 }
 
@@ -206,52 +206,39 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
 }
 
 void draw_char(char c, uint32_t color, uint64_t x, uint64_t y) {
-    for (int row = 0; row < 16; row++) {
-        uint8_t bitmap_row = font_data[(uint8_t)c][row];
-        for (int col = 0; col < 8; col++) {
-            if (bitmap_row & (1 << (7 - col)) || c == ' ') {
-                putPixel((c != ' ' ? color : 0x000000), x + col, y + row);
+    for (int row = 0; row < getHeight(); row+=currscale) {
+        uint8_t bitmap_row = font_data[(uint8_t)c][row/currscale];
+        for (int col = 0; col < getWidth(); col+=currscale) {
+            if (bitmap_row & (1 << (7 - col/currscale)) || c == ' ') {
+                for (int i=0; i < currscale; i++){
+                    for (int j=0; j < currscale; j++){
+                        putPixel((c != ' ' ? color : 0x000000), x + col + i, y + row + j);
+                    }
+                }
             }
         }
     }
 }
 
 void putChar(char c){
-    if (currentPosX + getWidth() + SPACING >= VBE_mode_info->width) {
-        resetCurrentPosX(0);
-        incCurrentPosY(getHeight());
-    }
-    if (c == '\n'){
-        newLine();
-    }
-    else if (c == '\b'){
-        backSpace();
-    }
-    else {
-        draw_char(c, 0xFFFFFF, currentPosX, currentPosY);
-        incCurrentPosX(getWidth() + SPACING);
-    }
+    putCharColor(c, 0xFFFFFF);
 }
 
 void putString(char * str){
-    int i = strlength(str);
-    for (int j = 0; j < i; j++) {
-        putChar(*str);
-        str++;
-    }
+    putStringColor(str, 0xFFFFFF);
 }
 
 void putCharColor(char c, uint32_t color){
     if (currentPosX + getWidth() + SPACING >= VBE_mode_info->width) {
         resetCurrentPosX(0);
-        incCurrentPosY(getHeight());
+        incCurrentPosY(getHeight() + SPACING);
     }
     if (c == '\n'){
         newLine();
     }
-    else if (c == '\b'){
-        backSpace();
-    }
+    //else if (c == '\b'){
+    //    backSpace();
+    //}
     else {
         draw_char(c, color, currentPosX, currentPosY);
         incCurrentPosX(getWidth() + SPACING);
@@ -267,27 +254,11 @@ void putStringColor(const char * str, uint32_t color){
 }
 
 void putCharAt(char c, uint64_t x, uint64_t y){
-    if (x + getWidth() + SPACING >= VBE_mode_info->width) {
-        return;
-    }
-    if (c == '\n'){
-        newLine();
-    }
-    else if (c == '\b'){
-        backSpace();
-    }
-    else {
-        draw_char(c, 0xFFFFFF, x, y);
-    }
+    putCharColorAt(c, 0xFFFFFF, x, y);
 }
 
 void putStringAt(const char * str, uint64_t x, uint64_t y){
-    int i = strlength(str);
-    for (int j = 0; j < i; j++) {
-        putCharAt(*str, x, y);
-        x += getWidth() + SPACING;
-        str++;
-    }
+    putStringColorAt(str, 0xFFFFFF, x, y);
 }
 
 void putCharColorAt(char c, uint32_t color, uint64_t x, uint64_t y){
@@ -297,9 +268,9 @@ void putCharColorAt(char c, uint32_t color, uint64_t x, uint64_t y){
     if (c == '\n'){
         newLine();
     }
-    else if (c == '\b'){
-        backSpace();
-    }
+    //else if (c == '\b'){
+    //    backSpace();
+    //}
     else {
         draw_char(c, color, x, y);
     }
@@ -309,7 +280,7 @@ void putStringColorAt(const char * str, uint32_t color, uint64_t x, uint64_t y){
     int i = strlength(str);
     for (int j = 0; j < i; j++) {
         putCharColorAt(*str, color, x, y);
-        x += +getWidth() + SPACING;
+        x += getWidth() + SPACING;
         str++;
     }
 }
@@ -330,36 +301,27 @@ void drawColoredCircle(uint32_t hexColor, uint32_t x1, uint32_t y1, uint32_t rad
                 putPixel(hexColor, x1+x, y1+y);
 }
 
-int backSpace(){
+void backSpace(){
     if (currentPosY == startY && currentPosX == 2 * (getWidth() + SPACING)) {
-        return 0;
+        return;
     }
     incCurrentPosX(-getWidth() - SPACING);
-    spaceBar();
-    if (currentPosX - getWidth() - SPACING <= 0) {
-	incCurrentPosY(-getHeight());
-	resetCurrentPosX(VBE_mode_info->width - getWidth() + SPACING + 2);
-	return 1;
-    }
-    incCurrentPosX(-getWidth() - SPACING);
-    return 1;
-}
-
-void spaceBar() {
     putChar(' ');
+    if (currentPosX - getWidth() - SPACING <= 0) {
+	    incCurrentPosY(-getHeight() - SPACING);
+	    resetCurrentPosX(VBE_mode_info->width - getWidth() + SPACING + 2);
+	    return;
+    }
+    incCurrentPosX(-getWidth() - SPACING);
 }
 
 void newLine(){
     resetCurrentPosX(0);
     incCurrentPosY(getHeight());
-}
-
-void newLineC(){
-    resetCurrentPosX(0);
-    incCurrentPosY(getHeight());
-    putCharColor('$', 0x00FF00);
-    startY = currentPosY;
-    spaceBar();
+    if (currentPosY >= VBE_mode_info->height){
+        resetCurrentPosY(0);
+        cleanScreen();
+    }
 }
 
 void cleanScreen() {
@@ -372,22 +334,22 @@ void cleanScreen() {
     resetCurrentPosY(0);
 }
 
-void incSize(){             // TODO: no funca todavia, nose si esta bien ni siquiera, mi idea era escalar el font
-    if (currSize == MAX_SIZE){
+void incSize() {             // TODO: no funca todavia, nose si esta bien ni siquiera, mi idea era escalar el font
+    if (currscale == MAX_SIZE){
         return;
     }
-    currSize += 1;
-    currentWidth *= currSize;
-    currentHeight *= currSize;
+    currscale += 1;
+    currentWidth = DEFAULT_WIDTH * currscale;
+    currentHeight = DEFAULT_HEIGHT * currscale;
 }
 
 void decSize(){             // TODO: idem
-    if (currSize == MIN_SIZE){
+    if (currscale == MIN_SIZE){
         return;
     }
-    currSize -= 1;
-    currentWidth *= currSize;
-    currentHeight *= currSize;
+    currscale -= 1;
+    currentWidth = DEFAULT_WIDTH * currscale;
+    currentHeight = DEFAULT_HEIGHT * currscale;
 }
 
 void incCurrentPosX(int increase) {

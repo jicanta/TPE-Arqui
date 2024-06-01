@@ -16,5 +16,8 @@ void putcharcolorF(char c, uint32_t color);
 void putstringcolorF(const char * str, uint32_t color);
 void putcharcoloratF(char c, uint32_t color, uint64_t x, uint64_t y);
 void putstringcoloratF(const char * str, uint32_t color, uint64_t x, uint64_t y);
+void biggerText();
+void smallerText();
+void startShell();
 
 #endif

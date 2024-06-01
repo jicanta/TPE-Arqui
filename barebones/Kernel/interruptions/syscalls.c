@@ -16,38 +16,32 @@ uint64_t syscallHandler(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, 
         return -1;      // syscall does not exist
     }
     switch (r9) {
-        
         case 1:
             _sti();  
             sys_read(rdi, rsi, rdx);
             break;
         case 2:
-            sys_write(rdi, rsi);
-            break;
-        case 3:
             sys_time();
             break;
-        case 4:
+        case 3:
             sys_printRegisters();
             break;
-        case 5:
+        case 4:
             cleanScreen();
             break;
-        case 6:
-            sys_getkeypressed(rdi, rsi);
-            break;
-        case 7:
+        case 5:
             sys_fillrect(rdi, rsi);
             break;
-        case 8:
-            sys_write_at(rdi, rsi, rdx, rcx);
-            break;
-        case 9:
+        case 6:
             sys_write_color(rdi, rsi, rdx);
-        case 10:
+        case 7:
             sys_write_color_at(rdi, rsi, rdx, rcx, r8);
-        case 11:
+        case 8:
             sys_sleep_asm();
+        case 9:
+            inzoom();
+        case 10:
+            outzoom();
         default:
             break;
     }
@@ -72,7 +66,7 @@ void sys_write(uint64_t fileDescriptor, const char * string) {
 }
 
 void sys_time() {
-    putString(itoa(get_hours() - 3,10));putString('h :');putString(itoa(get_minutes(),10));putString('min :');putString(itoa(get_seconds(),10));putString("s\n");
+    putString(itoa((get_hours()-3)%24, 10));putString("h:");putString(itoa(get_minutes(),10));putString("min:");putString(itoa(get_seconds(),10));putString("s\n");
     putString(itoa(get_day(), 10));putChar('/');putString(itoa(get_month(),10));putChar('/');putString(itoa(get_year(),10));
 }
 
@@ -81,9 +75,20 @@ void sys_saveRegisters() {
 }
 
 void sys_printRegisters() {
-    newLine();
+    char * aux[] = {"rax", "rbx", "rcx", "rdx", "rbp", "rdi", "rsi", "rsp", "rip", "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15"};
     for (int i = 0; i < 17 ; i++){
-        putString(itoa(registers[i],10));
+        putString(*(aux+i)); 
+        putString(" = ");
+        putString("0x");
+        char * value = itoa(registers[i], 16);
+        int len = strlength(value);
+        if (len < 16){
+            for (int i = 0; i < 16-len; i++){
+                putChar('0');
+            }
+        }
+        toUpperCase(value);
+        putString(value);
         newLine();
     }
 }
@@ -122,4 +127,12 @@ void sys_write_color_at(uint64_t fileDescriptor, const char * string, uint32_t c
 
 void sys_sleep(uint32_t ms) {
 
+}
+
+void inzoom() {
+    incSize();
+}
+
+void outzoom() {
+    decSize();
 }

@@ -7,6 +7,8 @@
 #define DEFAULT_STR_LEN     20
 
 sys_read_front_asm(uint64_t fileDescriptor, char * location, uint64_t length);
+void sys_zoomin();
+void sys_zoomout();
 
 char * itoa(int val, int base) {
     if (val < 10) {
@@ -37,23 +39,23 @@ char * numToStr(int num) {
 }
 
 void putcharF(char c) {
-    sys_write_front_asm(STDOUT, &c);
+    putcharcolorF(c, 0xFFFFFF);
 }
 
 void printF(char * string) {
-    sys_write_front_asm(STDOUT, string);
+    putstringcolorF(string, 0xFFFFFF);
 }
 
 void putcharatF(char c, uint64_t x, uint64_t y){
-    sys_write_at_front_asm(STDOUT, c, x, y);
+    putcharcoloratF(c, 0xFFFFFF, x, y);
 }
 
 void putstringatF(const char * str, uint64_t x, uint64_t y) {
-    sys_write_at_front_asm(STDOUT, str, x, y);
+    putstringcoloratF(str, 0xFFFFFF, x, y);
 }
 
 void putcharcolorF(char c, uint32_t color){
-    sys_write_color_front_asm(STDOUT, c, color);
+    sys_write_color_front_asm(STDOUT, &c, color);
 }
 
 void putstringcolorF(const char * str, uint32_t color){
@@ -61,7 +63,7 @@ void putstringcolorF(const char * str, uint32_t color){
 }   
 
 void putcharcoloratF(char c, uint32_t color, uint64_t x, uint64_t y){
-    sys_write_color_at_front_asm(STDOUT, c, color, x, y);
+    sys_write_color_at_front_asm(STDOUT, &c, color, x, y);
 }
 
 void putstringcoloratF(const char * str, uint32_t color, uint64_t x, uint64_t y){
@@ -73,8 +75,22 @@ char getcharF() {
     sys_read_front_asm(0, c, 1);
     return (*(c));
 }
-char * scan2F() {
+char * scanF() {
     char str[DEFAULT_STR_LEN];
     sys_read_front_asm(STDIN, str, DEFAULT_STR_LEN);
     return str;
+}
+
+void biggerText() {
+    sys_zoomin();
+    startShell();
+}
+
+void smallerText() {
+    sys_zoomout();
+    startShell();
+}
+
+void startShell() {
+    putstringcolorF("$", 0x00FF00);
 }

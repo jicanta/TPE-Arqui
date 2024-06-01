@@ -1,14 +1,14 @@
 GLOBAL sys_time_front_asm
 GLOBAL sys_registers_front_asm
 GLOBAL sys_read_front_asm
-GLOBAL sys_write_front_asm
 GLOBAL sys_clean_front_asm
 GLOBAL sys_getkeypressed_front_asm
 GLOBAL sys_fillrect_front_asm
-GLOBAL sys_write_at_front_asm
 GLOBAL sys_write_color_front_asm
 GLOBAL sys_write_color_at_front_asm
 GLOBAL sys_sleep_front_asm
+GLOBAL sys_zoomin
+GLOBAL sys_zoomout
 GLOBAL exception00_asm
 GLOBAL exception06_asm
 section .text
@@ -48,28 +48,6 @@ section .text
 	pop rbx
 	pop rax
 %endmacro
-
-sys_time_front_asm:
-        pushState
-        mov r9, 3
-        int 80h
-        popState
-        ret
-
-sys_registers_front_asm:
-        pushState
-        mov r9, 4
-        int 80h
-        popState
-        ret
-
-sys_write_front_asm:
-        pushState
-        mov r9, 2
-        int 80h
-        popState
-        ret
-
 sys_read_front_asm:
         pushState
         mov r9, 1
@@ -77,49 +55,68 @@ sys_read_front_asm:
         popState
         ret
 
+sys_time_front_asm:
+        pushState
+        mov r9, 2
+        int 80h
+        popState
+        ret
+
+sys_registers_front_asm:
+        pushState
+        mov r9, 3
+        int 80h
+        popState
+        ret
+
 sys_clean_front_asm:
 	pushState
-	mov r9, 5
+	mov r9, 4
 	int 80h
 	popState
 	ret
 
-sys_getkeypressed_front_asm:
-	pushState
-        mov r9, 6
-        int 80h
-        popState
-        ret
-
 sys_fillrect_front_asm:
 	pushState
-        mov r9, 7
-        int 80h
-        popState
-        ret
-
-sys_write_at_front_asm:
-	pushState
-        mov r9, 8
+        mov r9, 5
         int 80h
         popState
         ret
 
 sys_write_color_front_asm:
         pushState
-        mov r9, 9
+        mov r9, 6
         int 80h
         popState
         ret
 
 sys_write_color_at_front_asm:
         pushState
-        mov r9, 10
+        mov r9, 7
         int 80h
         popState
         ret
 
 sys_sleep_front_asm:
+        pushState
+        mov r9, 8
+        int 80h
+        popState
+        ret
+
+sys_zoomin:
+        pushState
+        mov r9, 9
+        int 80h
+        popState
+        ret
+
+sys_zoomout:
+        pushState
+        mov r9, 10
+        int 80h
+        popState
+        ret
 
 exception00_asm:
         pushState

@@ -39,6 +39,7 @@ get_hours:
 	mov al, 4
 	out 70h, al
 	in al, 71h
+	sub al, 4
 	sti
 	ret
 get_day:

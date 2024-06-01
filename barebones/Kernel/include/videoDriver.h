@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #define DEFAULT_WIDTH   8
-#define DEFAULT_HEIGHT  18
+#define DEFAULT_HEIGHT  16
 
 uint8_t * getFramebuffer();
 int getWidth();
@@ -22,10 +22,9 @@ void putStringAt(const char * str, uint64_t x, uint64_t y);
 void putStringColor(const char * str, uint32_t color);
 void putStringColorAt(const char * str, uint32_t color, uint64_t x, uint64_t y);
 
-int backSpace();
+void backSpace();
 void newLine();
 void spaceBar();
-void newLineC();
 void cleanScreen();
 void incSize();
 void decSize();
