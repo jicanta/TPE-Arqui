@@ -11,4 +11,5 @@
 compile.sh
 run.sh
 .tgdbinit
-*.elf
+kernel.elf
+0000-sampleCodeModule.elf
