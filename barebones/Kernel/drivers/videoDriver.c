@@ -334,24 +334,24 @@ void cleanScreen() {
     resetCurrentPosY(0);
 }
 
-void incSize() {
+int incSize() {
     if (currscale == MAX_SIZE){
-        putStringColorAt("Already at max size.", 0xFF0000, 0, currentPosY + getHeight() + SPACING);
-        return;
+        return 0;
     }
     currscale++;
     currentWidth = DEFAULT_WIDTH * currscale;
     currentHeight = DEFAULT_HEIGHT * currscale;
+    return 1;
 }
 
-void decSize(){             
+int decSize(){             
     if (currscale == MIN_SIZE){
-        putStringColorAt("Already at min size.", 0xFF0000, 0, currentPosY + getHeight() + SPACING);
-        return;
+        return 0;
     }
     currscale--;
     currentWidth = DEFAULT_WIDTH * currscale;
     currentHeight = DEFAULT_HEIGHT * currscale;
+    return 1;
 }
 
 void incCurrentPosX(int increase) {

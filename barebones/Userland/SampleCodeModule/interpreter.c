@@ -54,7 +54,6 @@ void time() {
 }
 
 void getregisters() {
-    printF("\n");
     sys_registers_front_asm();
 }
 
@@ -64,12 +63,10 @@ void clear() {
 
 void zoomin() {
     biggerText();
-    clear();
 }
 
 void zoomout() {
     smallerText();
-    clear();
 }
 
 void fonts(){

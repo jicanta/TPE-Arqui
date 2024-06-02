@@ -85,12 +85,10 @@ char * scanF() {
 
 void biggerText() {
     sys_zoomin();
-    startShell();
 }
 
 void smallerText() {
     sys_zoomout();
-    startShell();
 }
 
 void startShell() {

@@ -1,4 +1,4 @@
-#include <stdio2.h>
+/*#include <stdio2.h>
 #include <stdint.h>
 
 #define SCREEN_HEIGHT 1024
@@ -20,4 +20,5 @@ void drawRectangle(uint32_t hexColor, uint32_t x, uint32_t y, uint32_t width, ui
 void drawCircle(uint32_t hexColor, uint32_t x, uint32_t y, uint32_t radius){
     drawColoredCircle(hexColor, x, y, radius);
 }
+*/
 

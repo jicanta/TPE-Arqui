@@ -1,4 +1,4 @@
-#include <stdlib.h>
+/*#include <stdlib.h>
 #include <stdio2.h>
 #include <strings2.h>
 
@@ -198,3 +198,4 @@ void eliminator(){
     }
     gameOver();
 }
+*/

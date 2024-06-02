@@ -26,8 +26,8 @@ void backSpace();
 void newLine();
 void spaceBar();
 void cleanScreen();
-void incSize();
-void decSize();
+int incSize();
+int decSize();
 
 void incCurrentPosX(int increase);
 void resetCurrentPosX(int newPosX);

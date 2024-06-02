@@ -71,7 +71,7 @@ void sys_write(uint64_t fileDescriptor, const char * string) {
 }
 
 void sys_time() {
-    putString("h:");putString(itoa((get_hours()-3%24), 10));putString(" min:");putString(itoa(get_minutes(),10));putString(" s:");putString(itoa(get_seconds(),10));putString("\n");
+    putString(itoa((get_hours()-3%24), 10));putString("h ");putString(itoa(get_minutes(),10));putString("min ");putString(itoa(get_seconds(),10));putString("s \n");
     putString(itoa(get_day(), 10));putChar('/');putString(itoa(get_month(),10));putChar('/');putString(itoa(get_year(),10));
 }
 
@@ -94,7 +94,9 @@ void sys_printRegisters() {
         }
         toUpperCase(value);
         putString(value);
-        newLine();
+        if (i != 16) {
+            newLine();
+        }
     }
 }
 
@@ -135,9 +137,21 @@ void sys_sleep(uint32_t ms) {
 }
 
 void inzoom() {
-    incSize();
+    int ok = incSize();
+    if (!ok){
+        putStringColor("Already at max zoom.", 0xFF0000);
+    }
+    else {
+        cleanScreen();
+    }
 }
 
 void outzoom() {
-    decSize();
+    int ok = decSize();
+    if (!ok){
+        putStringColor("Already at min zoom.", 0xFF0000);
+    }
+    else {
+        cleanScreen();
+    }
 }
