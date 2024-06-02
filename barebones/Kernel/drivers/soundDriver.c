@@ -1,4 +1,5 @@
 #include <soundDriver.h>
+#include <time.h>
 
 extern void outPIT(int register, uint8_t val);
 extern uint8_t inPIT(int register);
@@ -23,8 +24,8 @@ void stopSound() {
     outPIT(0x61, tmp);
 }
 
-void beep(uint32_t freq) {
-    for(int i = 0; i < 80000; i++) playSound(freq);
-    // aca deberia ir un timerWait
-    stopSound();
+void beep(uint32_t freq, uint64_t seconds) {
+    for (int i=0; i<80000; i++) playSound(freq);
+    // sleep(seconds);
+    //stopSound();
 }

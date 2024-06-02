@@ -49,7 +49,7 @@ uint64_t syscallHandler(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, 
             outzoom();
             break;
         case 11:
-            beep(700);
+            beep(700, 1);
             break;
         default:
             break;
@@ -130,7 +130,7 @@ void sys_write_color_at(uint64_t fileDescriptor, const char * string, uint32_t c
 }
 
 void sys_sleep(uint32_t ms) {
-
+    nanosleep(ms);
 }
 
 void inzoom() {

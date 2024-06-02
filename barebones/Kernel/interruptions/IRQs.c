@@ -1,13 +1,14 @@
 #include <keyboardDriver.h>
 #include <videoDriver.h>    // TODO: BORRAR
 #include <naiveConsole.h>
+#include <time.h>
 
 // defining a new data type: pointer to a interruption function that returns void
 typedef void (*ints)();
 
 // timer tick interruption
 static void int_20(){
-    //TODO: se podria hacer "titilar" el cursor donde te encontras, nose como se haria bien eso
+   timer();
 }
 
 // keyboard interruption
