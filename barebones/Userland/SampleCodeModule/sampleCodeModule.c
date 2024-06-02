@@ -32,6 +32,9 @@ int main() {
 				putcharF(lastRead[0]);
 				totalbuffersize--;
 			}
+			else {
+				beepF();
+			}
 		}
 	}
 	printF("se llego al final del buffer");

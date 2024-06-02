@@ -9,6 +9,8 @@ GLOBAL sys_write_color_at_front_asm
 GLOBAL sys_sleep_front_asm
 GLOBAL sys_zoomin
 GLOBAL sys_zoomout
+
+GLOBAL sys_beep
 GLOBAL exception00_asm
 GLOBAL exception06_asm
 section .text
@@ -114,6 +116,13 @@ sys_zoomin:
 sys_zoomout:
         pushState
         mov r9, 10
+        int 80h
+        popState
+        ret
+
+sys_beep:
+        pushState
+        mov r9, 11
         int 80h
         popState
         ret

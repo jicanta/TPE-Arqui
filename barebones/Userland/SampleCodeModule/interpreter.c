@@ -2,8 +2,9 @@
 #include <strings2.h>
 #include <stdint.h>
 
-#define COMMDIM  9      // TODO: no me gusta el magic number me gustaria mas un size of
+#define COMMDIM  8
 #define REGS     18
+#define CLEAR    8
 
 extern void sys_time_front_asm();
 extern void sys_registers_front_asm();
@@ -19,7 +20,7 @@ typedef struct {
     char * name;
 } comms;
 
-void help(){        // TODO: ver si la cambiamos o dejamos esto
+void help() {
     printF("The following are valid commands:");
     printF("\n");
     printF("    help         -- displays information on current shell.");
@@ -37,8 +38,6 @@ void help(){        // TODO: ver si la cambiamos o dejamos esto
     printF("    zoomout      -- diminishes letter size. WARNING: this command clears the screen.");
     printF("\n");
     printF("    clear        -- clears the whole screen.");
-    printF("\n");
-    printF("    fonts        -- displays available fonts.");
 }
 
 void divzero() {
@@ -69,20 +68,16 @@ void zoomout() {
     smallerText();
 }
 
-void fonts(){
-    printF("type any to select. WARNING: activating any font clears the whole screen.");
-    //printF("\n");
-    // TODO: printear todos los fonts disponibles con el font directamente asi se ve como se ve
-}
-
-comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoomin"}, {zoomout, "zoomout"}, {clear, "clear"}, {fonts, "fonts"}};
+comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoomin"}, {zoomout, "zoomout"}, {clear, "clear"}};
 
 void interpretCommand(char * buffer){
     int i = 0;
     while (i < COMMDIM && *buffer) {
         if (strcmp(buffer, commands[i].name) == 0){
             commands[i].fn();
-            putcharF('\n');
+            if (i<=4) {
+                putcharF('\n');
+            }
             return;
         }
         i++;

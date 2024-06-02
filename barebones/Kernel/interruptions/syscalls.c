@@ -2,6 +2,7 @@
 #include <videoDriver.h>
 #include <lib.h>   //TODO: es para testear, despues hay q sacarlo!!!
 #include <keyboardDriver.h>
+#include <soundDriver.h>
 
 #define STDIN       0
 #define STDOUT      1
@@ -46,6 +47,9 @@ uint64_t syscallHandler(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, 
             break;
         case 10:
             outzoom();
+            break;
+        case 11:
+            beep(700);
             break;
         default:
             break;
@@ -111,13 +115,6 @@ void sys_fillrect(uint64_t x, uint64_t y) {
     // drawColoredRectangle();
 }
 
-/*void sys_write_at(uint64_t fileDescriptor, const char * string, uint64_t x, uint64_t y) {
-    if(fileDescriptor != STDOUT) {
-        return -1;
-    }
-    putStringAt(string, x, y);
-}*/
-
 void sys_write_color(uint64_t fileDescriptor, const char * string, uint32_t color) {
     if(fileDescriptor != STDOUT) {
         return -1;
@@ -139,7 +136,7 @@ void sys_sleep(uint32_t ms) {
 void inzoom() {
     int ok = incSize();
     if (!ok){
-        putStringColor("Already at max zoom.", 0xFF0000);
+        putStringColor("Already at max zoom.\n", 0xFF0000);
     }
     else {
         cleanScreen();
@@ -149,7 +146,7 @@ void inzoom() {
 void outzoom() {
     int ok = decSize();
     if (!ok){
-        putStringColor("Already at min zoom.", 0xFF0000);
+        putStringColor("Already at min zoom.\n", 0xFF0000);
     }
     else {
         cleanScreen();

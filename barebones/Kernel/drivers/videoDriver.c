@@ -302,16 +302,13 @@ void drawColoredCircle(uint32_t hexColor, uint32_t x1, uint32_t y1, uint32_t rad
 }
 
 void backSpace(){
-    //if (currentPosY == startY && currentPosX == 2 * (getWidth() + SPACING)) {
-    //    return;
-    //}
-    incCurrentPosX(-getWidth() - SPACING);
-    putChar(' ');
-    if (currentPosX - getWidth() - SPACING <= 0) {
-	    incCurrentPosY(-getHeight());
-	    resetCurrentPosX(VBE_mode_info->width - getWidth() + SPACING + 2);
+    if (currentPosX - getWidth() - SPACING < 0) {
+	    incCurrentPosY(-getHeight() - SPACING);
+	    resetCurrentPosX(VBE_mode_info->width);
 	    return;
     }
+    incCurrentPosX(-getWidth() - SPACING);
+    putChar(' ');
     incCurrentPosX(-getWidth() - SPACING);
 }
 

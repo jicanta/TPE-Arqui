@@ -24,7 +24,7 @@ void stopSound() {
 }
 
 void beep(uint32_t freq) {
-   for(int i = 0; i < 1000000; i++) playSound(freq);
+    for(int i = 0; i < 80000; i++) playSound(freq);
     // aca deberia ir un timerWait
     stopSound();
 }
