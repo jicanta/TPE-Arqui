@@ -34,14 +34,19 @@ uint64_t syscallHandler(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, 
             break;
         case 6:
             sys_write_color(rdi, rsi, rdx);
+            break;
         case 7:
             sys_write_color_at(rdi, rsi, rdx, rcx, r8);
+            break;
         case 8:
             sys_sleep(rdi);
+            break;
         case 9:
             inzoom();
+            break;
         case 10:
             outzoom();
+            break;
         default:
             break;
     }
@@ -66,7 +71,7 @@ void sys_write(uint64_t fileDescriptor, const char * string) {
 }
 
 void sys_time() {
-    putString(itoa((get_hours()-3)%24, 10));putString("h:");putString(itoa(get_minutes(),10));putString("min:");putString(itoa(get_seconds(),10));putString("s\n");
+    putString("h:");putString(itoa((get_hours()-3%24), 10));putString(" min:");putString(itoa(get_minutes(),10));putString(" s:");putString(itoa(get_seconds(),10));putString("\n");
     putString(itoa(get_day(), 10));putChar('/');putString(itoa(get_month(),10));putChar('/');putString(itoa(get_year(),10));
 }
 

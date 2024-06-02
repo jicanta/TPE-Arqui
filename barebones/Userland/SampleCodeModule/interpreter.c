@@ -74,7 +74,7 @@ void zoomout() {
 
 void fonts(){
     printF("type any to select. WARNING: activating any font clears the whole screen.");
-    printF("\n");
+    //printF("\n");
     // TODO: printear todos los fonts disponibles con el font directamente asi se ve como se ve
 }
 

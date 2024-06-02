@@ -312,7 +312,7 @@ void backSpace(){
 	    resetCurrentPosX(VBE_mode_info->width - getWidth() + SPACING + 2);
 	    return;
     }
-    incCurrentPosX(getWidth() - SPACING);
+    incCurrentPosX(-getWidth() - SPACING);
 }
 
 void newLine(){
