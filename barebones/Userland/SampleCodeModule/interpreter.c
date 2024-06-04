@@ -15,6 +15,9 @@ extern void exception00_asm();
 
 extern void sys_registers_front_asm();
 
+extern void test00();  //TODO: es para testear si anda la excepcion
+extern void test06();  //TODO: es para testear si anda la excepcion
+
 typedef struct {
     void (* fn)();
     char * name;
@@ -41,11 +44,13 @@ void help() {
 }
 
 void divzero() {
-    exception00_asm();
+    //exception00_asm();
+    test00();
 }
 
 void invopcode() {
-    exception06_asm();
+    //exception06_asm();
+    test06();
 }
 
 void time() {
