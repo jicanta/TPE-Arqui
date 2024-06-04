@@ -16,7 +16,7 @@ uint64_t getSeconds() {
 }
 
 uint64_t getMilliSeconds() {
-    return (ticks * 1000)/18;
+    return ticks * (1000/18);
 }
  
 void sleep(uint64_t secs) {
@@ -28,7 +28,7 @@ void sleep(uint64_t secs) {
     return;
 }
 
-void nanosleep(uint64_t millis) {
+void millisleep(uint64_t millis) {
     uint64_t startTime = getMilliSeconds();
     uint64_t currTime = startTime;
     while (currTime < startTime + millis) {
