@@ -130,7 +130,7 @@ void sys_write_color_at(uint64_t fileDescriptor, const char * string, uint32_t c
 }
 
 void sys_sleep(uint32_t ms) {
-    nanosleep(ms);
+    millisleep(ms);
 }
 
 void inzoom() {

@@ -13,3 +13,4 @@ run.sh
 .tgdbinit
 kernel.elf
 0000-sampleCodeModule.elf
+*.o

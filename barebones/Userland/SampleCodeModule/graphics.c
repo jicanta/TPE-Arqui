@@ -8,7 +8,6 @@ extern void sys_clean_front_asm();
 extern void sys_write_color_front_asm();
 
 
-
 void putPixel(uint32_t hexColor, uint32_t x, uint32_t y){
     putPixel(hexColor, x, y);
 }

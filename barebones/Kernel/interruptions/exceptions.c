@@ -9,15 +9,16 @@
 typedef void(* excep)();
 
 void zero_division() {
-	putString("Cannot divide by zero");
-	// TODO: imprimir registros
-	// TODO: falta recuperar el stack y que todo vuelva a estar como estaba antes
+	putString("Cannot divide by zero\n");
+	sys_saveRegisters();
+	sys_printRegisters();
 }
 
+
 void invalid_op_code() {
-	putString("Invalid Op Code");
-	// TODO: imprimir registros
-	// TODO: falta recuperar el stack y que todo vuelva a estar como estaba antes
+	putString("Invalid Op Code\n");
+	sys_saveRegisters();
+	sys_printRegisters();
 }
 
 void reserved(){  //TODO: SIRVE DE ALGO??

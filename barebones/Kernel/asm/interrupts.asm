@@ -114,6 +114,40 @@ picSlaveMask:
     pop     rbp
     retn
 
+registerSnapshot:
+	push	rbp
+	mov 	rbp, rsp
+	mov [registers+0], 	rax ;0
+	mov [registers+8], 	rbx ;1
+	mov [registers+16], 	rcx ;2
+	mov [registers+24], 	rdx ;3
+	mov [registers+32], 	rsi ;4
+	mov [registers+40], 	rdi ;5
+	mov [registers+48], 	rbp ;6
+	mov [registers+64], 	r8  ;8
+	mov [registers+72], 	r9  ;9
+	mov [registers+80], 	r10 ;10
+	mov [registers+88], 	r11	;11
+	mov [registers+96], 	r12 ;12
+	mov [registers+104], 	r13 ;13
+	mov [registers+112], 	r14 ;14
+	mov [registers+120], 	r15 ;15
+
+
+	mov rax, rsp
+	add rax, 40
+	mov [registers+56], rax ;7
+
+	mov rax, [rsp]
+	mov [registers+128], rax ;16
+
+	mov rax, [rsp+8]
+	mov [registers+136], rax ;17
+	mov 	rax, registers
+	mov 	rsp, rbp
+	pop 	rbp
+	ret
+
 ; timer tick
 irq00:
 	irqHandlerMaster 0
@@ -140,18 +174,20 @@ _irq05Handler:
 
 ; division by zero exception
 exception00:
-
+	call registerSnapshot
 	pushState
 	mov rdi, 0
+	mov rsi, registers
 	call exceptionHandler
 	popState
 	iretq
 
 ; invalid op code exception
 exception06:
-
+	call registerSnapshot
 	pushState
 	mov rdi, 6
+	mov rsi, registers
 	call exceptionHandler
 	popState
 	iretq
@@ -172,33 +208,8 @@ haltcpu:
 	hlt
 	ret
 
-registerSnapshot:
-		pushState
-		mov QWORD [registers], 545
-		mov QWORD[registers + 8 * 1], 545
-		mov QWORD[registers + 8 * 2], 545
-		mov QWORD[registers + 8 * 3], 545
-		mov [registers + 8 * 4], rbp
-		mov [registers + 8 * 5], rdi
-		mov [registers + 8 * 6], rsi   
-		mov rax, [rsp+18*8]
-		mov [registers + 8 * 7], rax       ;inserto rsp
-		mov rax, [rsp+15*8] 
-		mov [registers + 8 * 8], rax      ;inserto rip
-		mov [registers + 8 * 9], r8
-		mov [registers + 8 * 10], r9
-		mov [registers + 8 * 11], r10
-		mov [registers + 8 * 12], r11
-		mov [registers + 8 * 13], r12
-		mov [registers + 8 * 14], r13
-		mov [registers + 8 * 15], r14
-		mov [registers + 8 * 16], r15
-
-		mov rdi, registers    ; TODO: no estoy seguro de que este pasando bien los parametros
-		popState
-		ret
 
 SECTION .bss
 	aux resq 1
-	registers resq 17
+	registers resq 18
  
