@@ -84,21 +84,21 @@ void sys_saveRegisters() {
 }
 
 void sys_printRegisters() {
-    char * aux[] = {"rax", "rbx", "rcx", "rdx", "rbp", "rdi", "rsi", "rsp", "rip", "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15"};
-    for (int i = 0; i < 17 ; i++){
+    char * aux[] = {"rax", "rbx", "rcx", "rdx", "rsi", "rdi", "rbp", "R7" ,"r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15", "R16", "R17"};
+    for (int i = 0; i < 18 ; i++){
         putString(*(aux+i)); 
         putString(" = ");
         putString("0x");
         char * value = itoa(registers[i], 16);
         int len = strlength(value);
-        if (len < 16){
+        if (len < 17){
             for (int i = 0; i < 16-len; i++){
                 putChar('0');
             }
         }
         toUpperCase(value);
         putString(value);
-        if (i != 16) {
+        if (i != 17) {
             newLine();
         }
     }

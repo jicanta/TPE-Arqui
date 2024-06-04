@@ -229,7 +229,7 @@ void putString(char * str){
 }
 
 void putCharColor(char c, uint32_t color){
-    if (currentPosX + getWidth() + SPACING >= VBE_mode_info->width) {
+    if (currentPosX + getWidth() + SPACING > VBE_mode_info->width) {
         resetCurrentPosX(0);
         incCurrentPosY(getHeight() + SPACING);
     }
@@ -262,7 +262,7 @@ void putStringAt(const char * str, uint64_t x, uint64_t y){
 }
 
 void putCharColorAt(char c, uint32_t color, uint64_t x, uint64_t y){
-    if (x + getWidth() + SPACING >= VBE_mode_info->width) {
+    if (x + getWidth() + SPACING > VBE_mode_info->width) {
         return;
     }
     if (c == '\n'){
@@ -304,7 +304,7 @@ void drawColoredCircle(uint32_t hexColor, uint32_t x1, uint32_t y1, uint32_t rad
 void backSpace(){
     if (currentPosX - getWidth() - SPACING < 0) {
 	    incCurrentPosY(-getHeight() - SPACING);
-	    resetCurrentPosX(VBE_mode_info->width);
+	    resetCurrentPosX(VBE_mode_info->width - SPACING * 2);
 	    return;
     }
     incCurrentPosX(-getWidth() - SPACING);

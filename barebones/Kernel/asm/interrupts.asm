@@ -117,10 +117,10 @@ picSlaveMask:
 registerSnapshot:
 	push	rbp
 	mov 	rbp, rsp
-	mov [registers+0], 	rax ;0
-	mov [registers+8], 	rbx ;1
-	mov [registers+16], 	rcx ;2
-	mov [registers+24], 	rdx ;3
+	mov [registers+0],  rax ;0
+	mov [registers+8],  rbx ;1
+	mov [registers+16], rcx ;2
+	mov [registers+24], rdx ;3
 	mov [registers+32], 	rsi ;4
 	mov [registers+40], 	rdi ;5
 	mov [registers+48], 	rbp ;6

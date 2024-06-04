@@ -4,11 +4,9 @@
 #include <syscalls.h>
 
 
-#define LEFTSHIFT             0x2A
+#define LEFTSHIFT             0x2A 
 #define RIGHTSHIFT            0x36
-#define MASK                  0x7F
-#define ISSHIFT(scanCode)     ((scanCode == LEFTSHIFT) && (scanCode == RIGHTSHIFT))
-#define KEY_ASCII(scanCode) ((scanCode) & MASK)
+#define ISSHIFT(scanCode)     ((scanCode == LEFTSHIFT) || (scanCode == RIGHTSHIFT))
 
 uint8_t lowerCaseMap[] = {
       '\0', '\0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '\b', '\0' /*'\t*/,
