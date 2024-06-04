@@ -2,7 +2,7 @@
 #include <strings2.h>
 #include <stdint.h>
 
-#define COMMDIM  8
+#define COMMDIM  9
 #define REGS     18
 #define CLEAR    8
 
@@ -24,23 +24,16 @@ typedef struct {
 } comms;
 
 void help() {
-    printF("The following are valid commands:");
-    printF("\n");
-    printF("    help         -- displays information on current shell.");
-    printF("\n");
-    printF("    divzero      -- simulates a division by zero exception.");
-    printF("\n");
-    printF("    invopcode    -- simulates an invalid op code exception.");
-    printF("\n");
-    printF("    time         -- displays current time.");
-    printF("\n");
-    printF("    registers    -- last saved register info (press shift to save at any given time).");
-    printF("\n");
-    printF("    zoomin       -- augments letter size. WARNING: this command clears the screen.");
-    printF("\n");
-    printF("    zoomout      -- diminishes letter size. WARNING: this command clears the screen.");
-    printF("\n");
-    printF("    clear        -- clears the whole screen.");
+    printF("The following are valid commands:\n");
+    printF("    help         -- displays information on current shell.\n");
+    printF("    divzero      -- simulates a division by zero exception.\n");
+    printF("    invopcode    -- simulates an invalid op code exception.\n");
+    printF("    time         -- displays current time.\n");
+    printF("    registers    -- last saved register info (press shift to save at any given time).\n");
+    printF("    zoomin       -- augments letter size. WARNING: this command clears the screen.\n");
+    printF("    zoomout      -- diminishes letter size. WARNING: this command clears the screen.\n");
+    printF("    clear        -- clears the whole screen.\n");
+    printF("    eliminator   -- initiates \"eliminator\" test game.");
 }
 
 void divzero() {
@@ -73,7 +66,11 @@ void zoomout() {
     smallerText();
 }
 
-comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoomin"}, {zoomout, "zoomout"}, {clear, "clear"}};
+void eliminator() {
+    printF("jueguito lol\n");     // TODO: llamar al juego
+}
+
+comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoomin"}, {zoomout, "zoomout"}, {clear, "clear"}, {eliminator, "eliminator"}};
 
 void interpretCommand(char * buffer){
     int i = 0;

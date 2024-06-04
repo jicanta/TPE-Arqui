@@ -1,4 +1,5 @@
 GLOBAL test06
+
 section .text
 test06:
     db 0xFF, 0xFF, 0xFF, 0xFF       ; invalid op code bytes

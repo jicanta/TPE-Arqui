@@ -91,14 +91,14 @@ void sys_printRegisters() {
         putString("0x");
         char * value = itoa(registers[i], 16);
         int len = strlength(value);
-        if (len < 17){
+        if (len < 18){
             for (int i = 0; i < 16-len; i++){
                 putChar('0');
             }
         }
         toUpperCase(value);
         putString(value);
-        if (i != 17) {
+        if (i != 18) {
             newLine();
         }
     }

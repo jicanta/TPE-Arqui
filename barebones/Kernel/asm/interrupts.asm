@@ -21,6 +21,8 @@ EXTERN irqHandler           ; function in IRQs.c which handles interruption
 EXTERN exceptionHandler     ; function in exceptions.c which handles exceptions
 EXTERN syscallHandler		; function is syscalls.c which handles syscalls
 
+EXTERN getStackBase
+
 EXTERN getRegisters
 
 section .text
@@ -180,6 +182,10 @@ exception00:
 	mov rsi, registers
 	call exceptionHandler
 	popState
+	call getStackBase
+	mov [rsp + 24], rax
+	mov rax, userland
+	mov [rsp], rax
 	iretq
 
 ; invalid op code exception
@@ -190,6 +196,10 @@ exception06:
 	mov rsi, registers
 	call exceptionHandler
 	popState
+	call getStackBase
+	mov [rsp + 24], rax
+	mov rax, userland
+	mov [rsp], rax
 	iretq
 
 sys_call:
@@ -212,4 +222,7 @@ haltcpu:
 SECTION .bss
 	aux resq 1
 	registers resq 18
+
+SECTION .rodata
+	userland equ 0x400000
  

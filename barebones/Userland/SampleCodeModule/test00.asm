@@ -1,4 +1,5 @@
 GLOBAL test00
+
 section .text
 
 ; ver foto de cuales estan bien y cuales mal, anda medio falopa
@@ -20,6 +21,8 @@ test00:
     mov r14, 14h
     mov r15, 15h
 
-    ;div 0      ; TODO: el problema es que no me deja compilarlo si pongo div 0 lol como lo pruebo
+    mov rdx, 0
+    mov rcx, 0
+    div rcx      ; TODO: el problema es que no me deja compilarlo si pongo div 0 lol como lo pruebo
 
 	ret
