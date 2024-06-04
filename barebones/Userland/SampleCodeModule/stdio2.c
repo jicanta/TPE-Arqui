@@ -92,5 +92,5 @@ void smallerText() {
 }
 
 void startShell() {
-    putstringcolorF("$", 0x00FF00);
+    putstringcolorF("$ ", 0x00FF00);
 }
