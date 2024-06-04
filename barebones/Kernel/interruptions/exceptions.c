@@ -12,6 +12,7 @@ void zero_division() {
 	putString("Cannot divide by zero\n");
 	sys_saveRegisters();
 	sys_printRegisters();
+	return;
 }
 
 
@@ -19,6 +20,7 @@ void invalid_op_code() {
 	putString("Invalid Op Code\n");
 	sys_saveRegisters();
 	sys_printRegisters();
+	return;
 }
 
 void reserved(){  //TODO: SIRVE DE ALGO??
