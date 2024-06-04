@@ -1,6 +1,7 @@
 #include <stdio2.h>
 #include <strings2.h>
 #include <stdint.h>
+#include <eliminator.h>
 
 #define COMMDIM  9
 #define REGS     18
@@ -66,11 +67,12 @@ void zoomout() {
     smallerText();
 }
 
-void eliminator() {
+void eliminatorCommand() {
+    eliminator();
     printF("jueguito lol\n");     // TODO: llamar al juego
 }
 
-comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoomin"}, {zoomout, "zoomout"}, {clear, "clear"}, {eliminator, "eliminator"}};
+comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoomin"}, {zoomout, "zoomout"}, {clear, "clear"}, {eliminatorCommand, "eliminator"}};
 
 void interpretCommand(char * buffer){
     int i = 0;

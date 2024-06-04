@@ -1,15 +1,17 @@
-/*#include <stdlib.h>
 #include <stdio2.h>
 #include <strings2.h>
+#include <videoDriver.h>
 
-#define SCREEN_WIDTH 1024
-#define SCREEN_HEIGHT 768
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 96
 #define UP 1
 #define DOWN 2
 #define LEFT 3
 #define RIGHT 4
 #define PLAYER_RADIUS 2
 
+#define RED 0xFF0000
+#define PIXELSIZE 8
 
 int board[SCREEN_WIDTH][SCREEN_HEIGHT] = {0};
 
@@ -28,16 +30,17 @@ typedef struct {
 } Game;
 
 
-void initGame(Game *game){
+void initGame(/*Game *game*/){
     // Draw top and bottom border
     for (int i = 0; i < SCREEN_WIDTH; i++) {
         board[i][0] = 1;
         board[i][SCREEN_HEIGHT - 1] = 1;
-        putPixel();
+        (RED,i,0);
+        drawColoredRectangle(RED,i,SCREEN_HEIGHT, PIXELSIZE, PIXELSIZE);
     }
 
     // Draw left and right border
-    for (int j = 0; j < SCREEN_HEIGHT; j++) {
+    /*for (int j = 0; j < SCREEN_HEIGHT; j++) {
         board[0][j] = 1;
         board[SCREEN_WIDTH - 1][j] = 1;
         putPixel();
@@ -67,10 +70,10 @@ void initGame(Game *game){
         }
         drawPlayer(&game->player2);
         
-    }
+    }*/
 }
 
-void welcomeMessage(){
+/*void welcomeMessage(){
     printF("Press 1 for singleplayer Press 2 for multiplayer \n");
     while ((playercant = getLastPressedSC()) != '1' && playercant != '2')
         ;
@@ -164,11 +167,13 @@ void movePlayer(PlayerPoint *player){
             board[player->x + i][player->y + j] = 1;
         }
     }
-}
+}*/
 
 void eliminator(){
 
-    welcomeMessage();
+    initGame();
+
+    /*welcomeMessage();
 
     PlayerPoint player1;
     PlayerPoint player2;
@@ -196,6 +201,5 @@ void eliminator(){
         if (getLastPressedSC() == 27)
             break;
     }
-    gameOver();
+    gameOver();*/
 }
-*/
