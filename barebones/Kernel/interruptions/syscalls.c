@@ -3,22 +3,23 @@
 #include <lib.h>   //TODO: es para testear, despues hay q sacarlo!!!
 #include <keyboardDriver.h>
 #include <soundDriver.h>
+#include <time.h>
 
 #define STDIN       0
 #define STDOUT      1
 #define STDERROR    2
-#define SCALLSDIM   11
+#define SCALLSDIM   13
 
-static uint64_t *registers;
+static uint64_t * registers;
 
 // function to process which syscall is being asked for and call the function
 uint64_t syscallHandler(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9){
     if (r9 < 0 || r9 > SCALLSDIM){     
         return -1;      // syscall does not exist
     }
+    _sti();
     switch (r9) {
         case 1:
-            _sti();  
             sys_read(rdi, rsi, rdx);
             break;
         case 2:
@@ -31,7 +32,7 @@ uint64_t syscallHandler(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, 
             cleanScreen();
             break;
         case 5:
-            sys_fillrect(rdi, rsi);
+            sys_fillrect(rdi, rsi, rdx, rcx, r8);
             break;
         case 6:
             sys_write_color(rdi, rsi, rdx);
@@ -50,6 +51,13 @@ uint64_t syscallHandler(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, 
             break;
         case 11:
             beep(700, 1);
+            break;
+        case 12:
+            sys_get_ticks(rdi);
+            break;
+        case 13:
+            //putChar('a');
+            sys_get_scan_code(rdi);
             break;
         default:
             break;
@@ -111,8 +119,8 @@ void sys_getkeypressed(uint64_t fileDescriptor, char * location) {
     *(location) = getLastPressedSC();
 }
 
-void sys_fillrect(uint64_t x, uint64_t y) {
-    // drawColoredRectangle();
+void sys_fillrect(uint32_t hexColor, uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
+    drawColoredRectangle(hexColor,x,y,width,height);
 }
 
 void sys_write_color(uint64_t fileDescriptor, const char * string, uint32_t color) {
@@ -135,20 +143,22 @@ void sys_sleep(uint32_t ms) {
 
 void inzoom() {
     int ok = incSize();
-    if (!ok){
-        putStringColor("Already at max zoom.\n", 0xFF0000);
-    }
-    else {
+    if (ok){
         cleanScreen();
     }
 }
 
 void outzoom() {
     int ok = decSize();
-    if (!ok){
-        putStringColor("Already at min zoom.\n", 0xFF0000);
-    }
-    else {
+    if (ok){
         cleanScreen();
     }
+}
+
+void sys_get_ticks(uint64_t *time){
+    *time = getTicks();
+}
+
+void sys_get_scan_code(uint32_t * c){
+    *c = getLastPressedSC();
 }

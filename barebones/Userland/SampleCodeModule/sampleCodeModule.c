@@ -1,4 +1,5 @@
 #include <shell.h>
+#include <stdio2.h>
 
 void test00(void);
 void test06(void);

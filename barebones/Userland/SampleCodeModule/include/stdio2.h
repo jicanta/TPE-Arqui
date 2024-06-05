@@ -4,8 +4,9 @@
 #include <stdint.h>
 
 char * itoa(int val, int base);
-char * atoi(int val);
+int atoi(char * val);
 char * numToStr(int num);
+void cleanScreen();
 void putcharF(char c);
 void printF(char * string);
 char getcharF();
@@ -19,5 +20,9 @@ void putstringcoloratF(const char * str, uint32_t color, uint64_t x, uint64_t y)
 void biggerText();
 void smallerText();
 void startShell();
+uint64_t getTicksF();
+uint32_t getScanCodeF();
+void sleep(uint32_t millis);
+
 
 #endif

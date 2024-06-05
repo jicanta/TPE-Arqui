@@ -38,12 +38,10 @@ void help() {
 }
 
 void divzero() {
-    //exception00_asm();
     test00();
 }
 
 void invopcode() {
-    //exception06_asm();
     test06();
 }
 
@@ -69,7 +67,6 @@ void zoomout() {
 
 void eliminatorCommand() {
     eliminator();
-    printF("jueguito lol\n");     // TODO: llamar al juego
 }
 
 comms commands[] = {{help, "help"}, {divzero, "divzero"}, {invopcode, "invopcode"}, {time, "time"}, {getregisters, "registers"}, {zoomin, "zoomin"}, {zoomout, "zoomout"}, {clear, "clear"}, {eliminatorCommand, "eliminator"}};

@@ -5,4 +5,6 @@ void initGame(/*Game *game*/);
 
 void eliminator();
 
+void checkCollision();
+
 #endif

@@ -23,18 +23,7 @@ void invalid_op_code() {
 	return;
 }
 
-void reserved(){  //TODO: SIRVE DE ALGO??
-	return ;
-	// TODO: falta recuperar el stack y que todo vuelva a estar como estaba antes
-}
-
-excep exceptions[] = {zero_division, reserved, reserved, reserved, reserved, reserved, invalid_op_code};
-
-void handler(excep e){
-	e();
-}
-
-void exceptionHandler(int excepNum) {		// TODO: esta mal
+void exceptionHandler(int excepNum) {
 	switch(excepNum){
 		case ZERODIVISION:
 			zero_division();
@@ -43,4 +32,5 @@ void exceptionHandler(int excepNum) {		// TODO: esta mal
 			invalid_op_code();
 			break;
 	}
+	return;
 }

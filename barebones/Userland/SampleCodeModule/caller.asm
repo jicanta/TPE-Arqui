@@ -9,6 +9,8 @@ GLOBAL sys_write_color_at_front_asm
 GLOBAL sys_sleep_front_asm
 GLOBAL sys_zoomin
 GLOBAL sys_zoomout
+GLOBAL sys_get_ticks_front_asm
+GLOBAL sys_getscancode_front_asm
 
 GLOBAL sys_beep
 GLOBAL exception00_asm
@@ -123,6 +125,20 @@ sys_zoomout:
 sys_beep:
         pushState
         mov r9, 11
+        int 80h
+        popState
+        ret
+
+sys_get_ticks_front_asm:
+        pushState
+        mov r9, 12
+        int 80h
+        popState
+        ret
+
+sys_getscancode_front_asm:
+        pushState
+        mov r9, 13
         int 80h
         popState
         ret

@@ -9,8 +9,12 @@
 void sys_read_front_asm(uint64_t fileDescriptor, char * location, uint64_t length);
 void sys_write_color_front_asm(uint64_t fileDescriptor, const char * string, uint32_t color);
 void sys_write_color_at_front_asm(uint64_t fileDescriptor, const char * string, uint32_t color, uint64_t x, uint64_t y);
+void sys_fillrect_front_asm(uint32_t hexColor, uint32_t x, uint32_t y, uint32_t width, uint32_t height);
+void sys_clean_front_asm();
 void sys_zoomin();
 void sys_zoomout();
+void sys_get_ticks_front_asm(uint64_t ticks);
+void sys_getscancode_front_asm(uint32_t * c);
 
 char * itoa(int val, int base) {
     if (val < 10) {
@@ -28,12 +32,17 @@ char * itoa(int val, int base) {
     return &buf[i+1];
 }
 
-int atoi(char* str) {
+void cleanScreen(){
+    sys_clean_front_asm();
+}
+
+int atoi(char * str) {
     int ret = 0;
     int i = 0;
     while (str[i]) {
         ret = 10 * ret + (str[i++] - '0');
     }
+    return ret;
 }
 
 char * numToStr(int num) {
@@ -83,6 +92,10 @@ char * scanF() {
     return str;
 }
 
+void drawrectangleAt(uint32_t hexColor, uint32_t x, uint32_t y, uint32_t width, uint32_t height){
+    sys_fillrect_front_asm(hexColor , x, y, width, height);
+}
+
 void biggerText() {
     sys_zoomin();
 }
@@ -94,3 +107,20 @@ void smallerText() {
 void startShell() {
     putstringcolorF("$ ", 0x00FF00);
 }
+
+void sleep(uint32_t millis){
+    sys_sleep_front_asm(millis);
+}
+
+uint64_t getTicksF(){
+    uint64_t ticks[1];
+    sys_get_ticks_front_asm(ticks);
+    return ticks[0];
+}
+
+uint32_t getScanCodeF(){
+    uint32_t c[1];
+    sys_getscancode_front_asm(c);
+    return c[0];
+}
+

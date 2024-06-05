@@ -2,7 +2,7 @@
 #include <lib.h>
 
 #define SPACING     2
-#define MAX_SIZE    2
+#define MAX_SIZE    3
 #define MIN_SIZE    1
 
 int currentPosX = 0;
