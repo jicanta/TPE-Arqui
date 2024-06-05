@@ -235,6 +235,7 @@ void createPlayers() {
 }
 
 void gameOver() {
+    beepF(700, 100);
     biggerText();
     biggerText();
     putstringcoloratF("GAME OVER", 0xFF0000, 380, 300);

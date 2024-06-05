@@ -1,5 +1,5 @@
 #include <soundDriver.h>
-#include <time.h>
+#include <myTime.h>
 
 extern void outPIT(int register, uint8_t val);
 extern uint8_t inPIT(int register);
@@ -18,7 +18,7 @@ void beep(uint32_t nFrequence, uint64_t time) {
 	    outPIT(0x61, tmp | 3);
     }
 
-    millisleep(1000 / time);
+    millisleep(time);
 
     tmp = inPIT(0x61) & 0xFC;
     outPIT(0x61, tmp);

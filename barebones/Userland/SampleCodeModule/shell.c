@@ -32,7 +32,7 @@ void runShell(){
 				totalbuffersize--;
 			}
 			else {
-				beepF();
+				beepF(700, 5);
 			}
 		}
 	}

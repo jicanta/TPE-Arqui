@@ -50,7 +50,7 @@ uint64_t syscallHandler(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, 
             outzoom();
             break;
         case 11:
-            beep(700, 1);
+            beep(rdi, rsi);
             break;
         case 12:
             sys_get_ticks(rdi);
@@ -83,7 +83,7 @@ void sys_write(uint64_t fileDescriptor, const char * string) {
 }
 
 void sys_time() {
-    putString(itoa((get_hours()-3%24), 10));putString("h ");putString(itoa(get_minutes(),10));putString("min ");putString(itoa(get_seconds(),10));putString("s \n");
+    putString(itoa(get_hours(), 10));putString("h ");putString(itoa(get_minutes(),10));putString("min ");putString(itoa(get_seconds(),10));putString("s \n");
     putString(itoa(get_day(), 10));putChar('/');putString(itoa(get_month(),10));putChar('/');putString(itoa(get_year(),10));
 }
 
@@ -92,7 +92,7 @@ void sys_saveRegisters() {
 }
 
 void sys_printRegisters() {
-    char * aux[] = {"rax", "rbx", "rcx", "rdx", "rsi", "rdi", "rbp", "R7" ,"r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15", "R16", "R17"};
+    char * aux[] = {"rax   ", "rbx   ", "rcx   ", "rdx   ", "rsi   ", "rdi   ", "rbp   ", "rsp   " ,"r8    ", "r9    ", "r10   ", "r11   ", "r12   ", "r13   ", "r14   ", "r15   ", "rip   ", "rflags"};
     for (int i = 0; i < 18 ; i++){
         putStringColor(*(aux+i), 0xE5DE00); 
         putStringColor(" = ", 0xE5DE00);

@@ -1,4 +1,4 @@
-#include <time.h>
+#include <myTime.h>
 #include <stdint.h>
 
 static uint64_t ticks = 0;
@@ -12,11 +12,11 @@ uint64_t getTicks() {
 }
 
 uint64_t getSeconds() {
-    return ticks/18;
+    return ticks / 18;
 }
 
 uint64_t getMilliSeconds() {
-    return ticks * (1000/18);
+    return (ticks * 1000) / 18;
 }
  
 void sleep(uint64_t secs) {
@@ -28,7 +28,7 @@ void sleep(uint64_t secs) {
     return;
 }
 
-void millisleep(uint64_t millis) {
+void millisleep(uint64_t millis) {  
     uint64_t startTime = getMilliSeconds();
     uint64_t currTime = startTime;
     while (currTime < startTime + millis) {

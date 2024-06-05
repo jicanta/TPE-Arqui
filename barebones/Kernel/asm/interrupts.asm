@@ -4,7 +4,7 @@ GLOBAL picMasterMask
 GLOBAL picSlaveMask
 GLOBAL haltcpu
 GLOBAL _hlt
-
+GLOBAL reset
 GLOBAL _irq02Handler
 GLOBAL _irq03Handler
 GLOBAL _irq04Handler
@@ -20,6 +20,7 @@ GLOBAL registerSnapshot
 EXTERN irqHandler           ; function in IRQs.c which handles interruption
 EXTERN exceptionHandler     ; function in exceptions.c which handles exceptions
 EXTERN syscallHandler		; function is syscalls.c which handles syscalls
+EXTERN main
 
 EXTERN getStackBase
 
@@ -184,6 +185,7 @@ exception00:
 	popState
 	call getStackBase
 	mov [rsp + 24], rax
+	mov [rsp + 16], DWORD 0x202
 	mov rax, userland
 	mov [rsp], rax
 	iretq
