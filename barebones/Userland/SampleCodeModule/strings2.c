@@ -1,4 +1,4 @@
-#include <strings.h>
+#include <strings2.h>
 
 char toLower(char c) {
     if (c >= 'A' && c <= 'Z') {

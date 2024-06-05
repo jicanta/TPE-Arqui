@@ -1,5 +1,6 @@
 #ifndef SYSCALLS_H_
 #define SYSCALLS_H_
+
 #include <stdint.h>
 
 typedef struct {

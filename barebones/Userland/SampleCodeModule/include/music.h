@@ -7,7 +7,6 @@
 void happyBirthday();
 void furElise();
 void tetris();
-void tetris();
 void cantinaBand();
 
 #endif

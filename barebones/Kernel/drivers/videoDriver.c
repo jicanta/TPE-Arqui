@@ -7,7 +7,6 @@
 
 int currentPosX = 0;
 int currentPosY = 0;
-int startY = SPACING;
 int currentWidth = DEFAULT_WIDTH;
 int currentHeight = DEFAULT_HEIGHT;
 int currscale = 1;

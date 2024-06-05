@@ -2,9 +2,9 @@
 #include <music.h>
 
 void happyBirthday() {
-    beepF(261, 214);
-	beepF(261, 214);
-	beepF(293, 293);
+beepF(261, 214);
+beepF(261, 214);
+beepF(293, 293);
 beepF(261, 214);
 beepF(349, 429);
 beepF(329, 429);
@@ -30,7 +30,7 @@ beepF(349, 429);
 }
 
 void furElise() {
-	beepF(NOTE_E5, 150); 
+beepF(NOTE_E5, 150); 
 beepF(NOTE_DS5, 150); //1
 beepF(NOTE_E5, 150);
 beepF(NOTE_DS5, 150);

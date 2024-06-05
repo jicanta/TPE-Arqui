@@ -1,8 +1,5 @@
-#include <stdio.h>
 #include <keyboardDriver.h>
-#include <videoDriver.h>
 #include <syscalls.h>
-
 
 #define LEFTSHIFT             0x2A 
 #define RIGHTSHIFT            0x36

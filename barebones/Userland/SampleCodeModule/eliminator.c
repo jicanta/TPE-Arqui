@@ -43,7 +43,8 @@ typedef struct {
 PlayerPoint game[2];
 
 void initGame() {
-    clearMatrix();   //inicializa la matriz en 0
+    clearMatrix();   // initiate matrix in 0s
+
     // Draw top and bottom border
     for (int i = 0; i < SCREEN_WIDTH; i++) {
         board[i][0] = 1;
@@ -196,20 +197,21 @@ void welcomeMessage() {
     putcharF(read[0]);putcharF('\n');
     if (read[0] != '1' && read[0] != '2') {
         putstringcolorF("Wrong parameter. Exiting game. Reenter to play again.\n", 0xFF0000);
-        exitGame();
+        sleep(2000);
         return;
     }
-    
     playersQuant = atoi(read);
     printF("Choose player(s) speed: 1 < 2 < 3 < 4 < 5\n");
     read[0] = getcharF();
     putcharF(read[0]);putcharF('\n');
     if (read[0] != '1' && read[0] != '2' && read[0] != '3' && read[0] != '4' && read[0] != '5') {
         putstringcolorF("Wrong parameter. Exiting game. Reenter to play again.\n", 0xFF0000);
-        exitGame();
+        sleep(2000);
+        return;
     }
     speed = atoi(read);
     cleanScreen();
+    initGame();
 }
 
 void createPlayers() {
@@ -261,19 +263,17 @@ void exitGame() {
     return;
 }
 
-void eliminator() {
-    welcomeMessage();
-    initGame();
-    for (int i=0; i<800000; i++);
-    cleanScreen();
-    return;
-}
-
 void clearMatrix(){
     for (int i = 0; i < SCREEN_WIDTH; i++) {
         for(int j = 0 ; j < SCREEN_HEIGHT; j++){
             board[i][j] = 0;
         }
     }
+}
+
+void eliminator() {
+    welcomeMessage();
+    cleanScreen();
+    return;
 }
 

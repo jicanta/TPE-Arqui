@@ -17,8 +17,8 @@ extern void exception00_asm();
 
 extern void sys_registers_front_asm();
 
-extern void test00();  //TODO: es para testear si anda la excepcion
-extern void test06();  //TODO: es para testear si anda la excepcion
+extern void test00();
+extern void test06();
 
 typedef struct {
     void (* fn)();

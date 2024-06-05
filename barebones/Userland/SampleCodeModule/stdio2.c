@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdio2.h>
 #include <stdint.h>
 
 #define STDIN       0

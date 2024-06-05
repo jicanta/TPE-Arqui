@@ -20,11 +20,9 @@ GLOBAL registerSnapshot
 EXTERN irqHandler           ; function in IRQs.c which handles interruption
 EXTERN exceptionHandler     ; function in exceptions.c which handles exceptions
 EXTERN syscallHandler		; function is syscalls.c which handles syscalls
-EXTERN main
 
 EXTERN getStackBase
 
-EXTERN getRegisters
 
 section .text
 
@@ -67,7 +65,7 @@ section .text
 %macro irqHandlerMaster 1
 	pushState
 
-	mov rdi, %1 ; pasaje de parametro
+	mov rdi, %1 					   ; argument
 	call irqHandler                    ; calling irqHandler to process interruption
 
 	; signal pic EOI (End of Interrupt)
@@ -81,7 +79,7 @@ section .text
 %macro exceptionHandlerMaster 1
 	pushState
 
-	mov rdi, %1 ; pasaje de parametro
+	mov rdi, %1 					  ; argument
 	call exceptionHandler             ; calling exceptionHandler to process interruption
 
 	popState
@@ -112,7 +110,7 @@ picMasterMask:
 picSlaveMask:
 	push    rbp
     mov     rbp, rsp
-    mov     ax, di  ; ax = mascara de 16 bits
+    mov     ax, di  	; ax = 16 bits mask
     out	0A1h,al
     pop     rbp
     retn
@@ -205,14 +203,14 @@ exception06:
 	iretq
 
 sys_call:
-	;pushState
+	pushState
 	call syscallHandler
 
 	; signal pic EOI (End of Interrupt)
 	mov al, 20h
 	out 20h, al
 
-	;popState
+	popState
 	iretq
 
 haltcpu:

@@ -24,5 +24,4 @@ uint64_t getTicksF();
 uint32_t getScanCodeF();
 void sleep(uint32_t millis);
 
-
 #endif
